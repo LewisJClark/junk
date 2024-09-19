@@ -1,7 +1,19 @@
-require "engine.assets.assetLib"
-require "engine.assets.sprite"
+require "frengine.assets.assetLib"
+require "frengine.assets.sprite"
 
-require "engine.vector"
-require "engine.input"
+require "frengine.vector"
+require "frengine.input"
+require "frengine.timer"
 
-require "engine.third_party.flux"
+require "frengine.third_party.flux"
+
+local frengine = {}
+
+function frengine.init()
+   love.math.random(os.time())
+   love.window.setMode(384, 216)
+   love.graphics.setDefaultFilter("nearest", "nearest")
+   AssetLib:load()
+end
+
+return frengine

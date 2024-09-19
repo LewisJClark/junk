@@ -1,4 +1,4 @@
-require "engine.assets.assetLib"
+require "frengine.assets.assetLib"
 
 Sprite = {}
 Sprite.__index = Sprite
