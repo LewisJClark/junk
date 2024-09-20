@@ -16,6 +16,11 @@ function Vector:copy()
    return Vector:new(self.x, self.y)
 end
 
+function Vector:setTo(other)
+   self.x = other.x
+   self.y = other.y
+end
+
 function Vector.__add(a, b)
    if type(a) == "number" then return Vector:new(b.x + a, b.y + a) end
    if type(b) == "number" then return Vector:new(a.x + b, a.y + b) end

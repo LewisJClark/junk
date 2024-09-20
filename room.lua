@@ -25,7 +25,9 @@ end
 
 function Room:addObject(object)
    object.room = self
+   object.enabled = true
    self.objects[#self.objects + 1] = object
+   print("Adding: ", object.name)
 end
 
 function Room:removeObject(object)
@@ -40,9 +42,15 @@ function Room:removeObject(object)
    end
 end
 
-function Room:queueAddObject(object) table.insert(self.toAdd, object) end
+function Room:queueAddObject(object)
+   object.enabled = false
+   table.insert(self.toAdd, object)
+end
 
-function Room:queueRemoveObject(object) table.insert(self.toRemove, object) end
+function Room:queueRemoveObject(object)
+   object.enabled = false
+   table.insert(self.toRemove, object)
+end
 
 
 -- Collision Management ---------------------------------------------------------------------------------
