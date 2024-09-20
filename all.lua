@@ -5,6 +5,9 @@ require "frengine.vector"
 require "frengine.input"
 require "frengine.timer"
 
+require "frengine.gameObject"
+require "frengine.room"
+
 require "frengine.third_party.flux"
 
 local frengine = {}
