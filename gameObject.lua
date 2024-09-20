@@ -9,6 +9,7 @@ function GameObject:inherit(config)
       room = nil,
       enabled = true,
       position = Vector:new(0, 0),
+      colliderEnabled = true,
       colliderWidth = 1,
       colliderHeight = 1,
       colliderOffsetX = 0,
@@ -37,6 +38,7 @@ function GameObject:getColliderSides()
 end
 
 function GameObject:collidesWith(other)
+   if not self.colliderEnabled or not other.colliderEnabled then return false end
    if not self.enabled or not other.enabled then return false end
    local l1, r1, t1, b1 = self:getColliderSides()
    local l2, r2, t2, b2 = other:getColliderSides()
