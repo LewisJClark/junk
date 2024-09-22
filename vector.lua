@@ -21,6 +21,10 @@ function Vector:setTo(other)
    self.y = other.y
 end
 
+function Vector:isZero()
+   return self.x == 0 and self.y == 0
+end
+
 function Vector.__add(a, b)
    if type(a) == "number" then return Vector:new(b.x + a, b.y + a) end
    if type(b) == "number" then return Vector:new(a.x + b, a.y + b) end
