@@ -1,5 +1,4 @@
-require "utils"
-
+require "frengine.utils"
 
 AssetLib = {
    images = {},
@@ -7,10 +6,9 @@ AssetLib = {
    sounds = {}
 }
 
-
 function AssetLib:load()
    -- Load the raw image files.
-   local spriteFiles = Utils.getFiles("assets/images")
+   local spriteFiles = GetFiles("assets/images")
    for _,v in ipairs(spriteFiles) do
       local filename, _ = v:match("^.+/(.+)%.(.+)$")
       self.images[filename] = love.graphics.newImage(v)

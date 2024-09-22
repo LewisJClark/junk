@@ -1,3 +1,24 @@
+function GetFiles(rootPath, tree)
+   tree = tree or {}
+   local filesTable = love.filesystem.getDirectoryItems(rootPath)
+   for _,v in ipairs(filesTable) do
+     local path = rootPath.."/"..v
+     local info = love.filesystem.getInfo(path)
+     if info.type == "file" then
+       tree[#tree+1] = path
+     elseif info.type == "directory" then
+       tree = Utils.getFiles(path, tree)
+     end
+   end
+   return tree
+ end
+
+ function Sign(number)
+  if number < 0 then return -1 end
+  if number > 0 then return 1 end
+  return 0
+ end
+
 function Create2dArray(w, h)
    local r = {}
    for x=1, w do
