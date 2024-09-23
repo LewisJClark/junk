@@ -1,4 +1,4 @@
-Vector = { x = 0, y = 0 }
+Vector = {x = 0, y = 0 }
 Vector.__index = Vector
 
 function Vector:new(x, y)

@@ -1,11 +1,13 @@
 require "frengine.assets.assetLib"
 require "frengine.assets.sprite"
-require "frengine.vector"
-require "frengine.input"
-require "frengine.timer"
+require "frengine.constants"
 require "frengine.gameObject"
+require "frengine.input"
 require "frengine.room"
+require "frengine.timer"
 require "frengine.utils"
+require "frengine.vector"
+
 require "frengine.third_party.flux"
 
 local frengine = {}
