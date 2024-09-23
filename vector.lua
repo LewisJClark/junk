@@ -7,6 +7,10 @@ function Vector:new(x, y)
    return v
 end
 
+function Vector:length()
+   return math.sqrt((self.x* self.x) + (self.y * self.y))
+end
+
 function Vector:normalize()
    local len = math.sqrt((self.x* self.x) + (self.y * self.y))
    return Vector:new(self.x / len, self.y / len)
