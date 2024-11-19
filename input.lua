@@ -22,7 +22,7 @@ function Input:update()
       action.lastState = action.state
       local newState = UP
       -- Check keyboard inputs.
-      if love.keyboard.isDown(action.key) then
+      if action.key ~= nil and love.keyboard.isDown(action.key) then
          if action.lastState == UP then newState = PRESSED
          else newState = DOWN end
          action.lastInputType = "key"
