@@ -7,7 +7,7 @@ function GetFiles(rootPath, tree)
      if info.type == "file" then
        tree[#tree+1] = path
      elseif info.type == "directory" then
-       tree = Utils.getFiles(path, tree)
+       tree = GetFiles(path, tree)
      end
    end
    return tree

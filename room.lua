@@ -4,13 +4,14 @@ require "frengine.gameObject"
 Room = {}
 Room.__index = Room
 
-function Room:new()
+function Room:inherit(config)
    local r = {
       objects = {},
       colliderGroups = {},
       toRemove = {},
       toAdd = {}
    }
+   for k,v in pairs(config) do r[k] = v end
    return setmetatable(r, Room)
 end
 
