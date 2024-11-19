@@ -19,4 +19,9 @@ function frengine.init()
    AssetLib:load()
 end
 
+function frengine.update(dt)
+   Input:update()
+   Flux:update(dt)
+end
+
 return frengine
