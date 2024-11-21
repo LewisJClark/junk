@@ -24,7 +24,7 @@ function Create2dArray(w, h)
    for x=1, w do
       r[x] = {}
       for y=1, h do
-         r[x][y] = {}
+         r[x][y] = nil
       end
    end
    return r
@@ -58,4 +58,10 @@ function MoveAndCollide(o, m, g)
    end
    o.position.y = o.position.y + m.y
    return m
+end
+
+-- Returns a random entry in a table by picking a random index between
+-- 1 and #t.
+function PickRandom(t)
+   return t[love.math.random(1, #t)]
 end

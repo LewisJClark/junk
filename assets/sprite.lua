@@ -3,7 +3,6 @@ require "frengine.assets.assetLib"
 Sprite = {}
 Sprite.__index = Sprite
 
-
 function Sprite:instance(spriteName)
    local newSprite = {
       speed = 0,
