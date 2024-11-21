@@ -1,6 +1,7 @@
 require "frengine.assets.assetLib"
 require "frengine.assets.sprite"
 require "frengine.assets.tilemap"
+require "frengine.entity"
 require "frengine.constants"
 require "frengine.gameObject"
 require "frengine.input"
@@ -11,9 +12,11 @@ require "frengine.vector"
 
 require "frengine.third_party.flux"
 
-local frengine = {}
+Frengine = {
+   Class = require "frengine.third_party.middleclass"
+}
 
-function frengine.init(width, height, title)
+function Frengine:init(width, height, title)
    love.math.random(os.time())
    love.window.setMode(width, height)
    love.window.setTitle(title)
@@ -21,9 +24,7 @@ function frengine.init(width, height, title)
    AssetLib:load()
 end
 
-function frengine.update(dt)
+function Frengine:update(dt)
    Input:update()
    Flux:update(dt)
 end
-
-return frengine

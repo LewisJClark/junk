@@ -1,9 +1,12 @@
+require "frengine.vector"
+
 local UP = 0
 local DOWN = 1
 local PRESSED = 2
 local RELEASED = 3
 
 Input = {
+   mousePos = Vector:new(0, 0),
    actions = {}
 }
 
@@ -18,6 +21,7 @@ function Input:addAction(name, key, mbutton)
 end
 
 function Input:update()
+   self.mousePos.x, self.mousePos.y = love.mouse.getPosition()
    for _,action in pairs(self.actions) do
       action.lastState = action.state
       local newState = UP
