@@ -13,9 +13,10 @@ require "frengine.third_party.flux"
 
 local frengine = {}
 
-function frengine.init(width, height)
+function frengine.init(width, height, title)
    love.math.random(os.time())
    love.window.setMode(width, height)
+   love.window.setTitle(title)
    love.graphics.setDefaultFilter("nearest", "nearest")
    AssetLib:load()
 end
