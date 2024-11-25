@@ -1,13 +1,23 @@
 require "frengine.utils"
 
 AssetLib = {
+   fonts = {},
    images = {},
    sprites = {},
    sounds = {},
-   shaders = {}
+   shaders = {},
+   tilesets = {}
 }
 
 function AssetLib:load()
+   -- Load fonts.
+   if love.filesystem.getInfo("assets/fonts.lua") ~= nil then
+      self.fonts = require("assets/fonts")
+      for k,v in pairs(self.fonts) do
+         self.fonts[k] = love.graphics.newImageFont(v.file, v.glyphs, v.spacing or 0)
+      end
+   end
+
    -- Load the raw image files.
    local spriteFiles = GetFiles("assets/images")
    for _,v in ipairs(spriteFiles) do
