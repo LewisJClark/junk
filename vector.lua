@@ -52,3 +52,7 @@ function Vector.__div(a, b)
    if type(b) == "number" then return Vector:new(a.x * b, a.y * b) end
    return Vector:new(a.x * b.x, a.y * b.y)
 end
+
+function Vector.__eq(a, b)
+   return a.x == b.x and a.y == b.y
+end
