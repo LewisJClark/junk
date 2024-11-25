@@ -3,7 +3,8 @@ require "frengine.utils"
 AssetLib = {
    images = {},
    sprites = {},
-   sounds = {}
+   sounds = {},
+   shaders = {}
 }
 
 function AssetLib:load()
@@ -40,5 +41,11 @@ function AssetLib:load()
       end
       tileset.image = image
       tileset.tileCount = tileCount - 1
+   end
+
+   -- Create any shaders.
+   self.shaders = require("assets/shaders")
+   for key,config in pairs(self.shaders) do
+      self.shaders[key] = love.graphics.newShader(config.fragment or "", config.vertex or "")
    end
 end
