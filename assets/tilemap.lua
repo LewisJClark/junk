@@ -20,6 +20,23 @@ function Tilemap:set(x, y, tile)
    self.tiles[x][y] = tile
 end
 
+function Tilemap:setNamed(x, y, tileName)
+   if x < 1 or x > self.width then return end
+   if y < 1 or y > self.height then return end
+   local tile = self.tileset.namedTiles[tileName]
+   if tile == nil then return end
+   self.tiles[x][y] = tile
+end
+
+function Tilemap:setNamedRandom(x, y, tileName)
+   if x < 1 or x > self.width then return end
+   if y < 1 or y > self.height then return end
+   local namedTile = self.tileset.namedTiles[tileName]
+   local tile = namedTile[math.random(1, #namedTile)]
+   if tile == nil then return end
+   self.tiles[x][y] = tile
+end
+
 function Tilemap:draw(x, y)
    for xx=1,self.width do
       for yy=1,self.height do
