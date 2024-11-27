@@ -65,3 +65,22 @@ end
 function PickRandom(t)
    return t[love.math.random(1, #t)]
 end
+
+-- Checks if the provided value is in a table.
+function TableContains(t, value)
+   for _,v in pairs(t) do
+      if v == value then return true end
+   end
+   return false
+end
+
+-- Takes a table representing a colour and converts
+-- the 1-255 values to 0.0-1.0.
+function NormalizeColour(color)
+   return {
+      r = color.r * (1/255),
+      g = color.g * (1/255),
+      b = color.b * (1/255),
+      a = color.a * (1/255)
+   }
+end

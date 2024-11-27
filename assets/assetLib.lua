@@ -25,6 +25,8 @@ function AssetLib:load()
       self.images[filename] = love.graphics.newImage(v)
    end
 
+   self:loadParticles()
+
    -- Create any sprites.
    if love.filesystem.getInfo("assets/sprites.lua") ~= nil then
       self.sprites = require("assets/sprites")
@@ -63,5 +65,11 @@ function AssetLib:load()
       for key,config in pairs(self.shaders) do
          self.shaders[key] = love.graphics.newShader(config.fragment or "", config.vertex or "")
       end
+   end
+end
+
+function AssetLib:loadParticles()
+   if love.filesystem.getInfo("assets/particles.lua") ~= nil then
+      self.particles = love.filesystem.load("assets/particles.lua")()
    end
 end
