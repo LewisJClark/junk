@@ -10,11 +10,15 @@ require "frengine.room"
 require "frengine.timer"
 require "frengine.utils"
 require "frengine.vector"
+require "frengine.tweener"
 
 require "frengine.third_party.flux"
 
 Frengine = {
-   Class = require "frengine.third_party.middleclass"
+   Class = require "frengine.third_party.middleclass",
+   time_scale = 1,
+   delta_tween = Tweener:new(),
+   scaled_tween = Tweener:new()
 }
 
 function Frengine:init(width, height, title)
@@ -27,5 +31,7 @@ end
 
 function Frengine:update(dt)
    Input:update()
+   self.delta_tween:update(dt)
+   self.scaled_tween:update(dt * self.time_scale)
    Flux:update(dt)
 end
