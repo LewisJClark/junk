@@ -16,15 +16,15 @@ function ParticleEmitter:new(x, y, type, maxParticles)
       width = 0,
       height = 0,
       distribution="normal",
-      particleType = nil
+      particle_type = nil
    }
    ParticleEmitter.setParticleType(pe, type)
    return setmetatable(pe, ParticleEmitter)
 end
 
 function ParticleEmitter:setParticleType(type)
-   if type == self.particleType then return end
-   self.particleType = type
+   if type == self.particle_type then return end
+   self.particle_type = type
    if type.image then self.base:setTexture(AssetLib.images[type.image]) end
    if type.origin then self.base:setOffset(type.origin[1], type.origin[2]) end
    if type.direction then self.base:setDirection(math.rad(type.direction)) end

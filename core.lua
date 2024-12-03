@@ -16,6 +16,7 @@ require "frengine.tweener"
 
 Frengine = {
    time_scale = 1,
+   scaled_delta = 0,
    delta_tween = Tweener:new(),
    scaled_tween = Tweener:new()
 }
@@ -37,8 +38,9 @@ function Frengine:init(width, height, title)
 end
 
 function Frengine:update(dt)
-   Input:update()
+   self.scaled_delta = dt * self.time_scale
    self.delta_tween:update(dt)
    self.scaled_tween:update(dt * self.time_scale)
+   Input:update()
    Flux:update(dt)
 end
