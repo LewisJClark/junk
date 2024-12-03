@@ -27,6 +27,8 @@ function Timer:update(dt)
       self.callback()
       if self.type == "repeat" then
          self.remaining = self.duration
+      else
+         self.running = false
       end
    end
 end

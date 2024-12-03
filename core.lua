@@ -40,7 +40,7 @@ end
 function Frengine:update(dt)
    self.scaled_delta = dt * self.time_scale
    self.delta_tween:update(dt)
-   self.scaled_tween:update(dt * self.time_scale)
+   self.scaled_tween:update(self.scaled_delta)
    Input:update()
    Flux:update(dt)
 end
