@@ -17,6 +17,7 @@ function uiRoot:update(dt)
       child.global_y = self.global_y + child.y
       child:update(dt)
    end
+   if self.focused_node then self.focused_node:handleInput() end
 end
 
 function uiRoot:draw()

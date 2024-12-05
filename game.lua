@@ -51,7 +51,7 @@ function game:init(width, height, title)
    self.input:addAction("ui_down", "down")
    self.input:addAction("ui_left", "left")
    self.input:addAction("ui_right", "right")
-   self.input:addAction("ui_confirm", "return")
+   self.input:addAction("ui_confirm", "a")
    self.input:addAction("ui_cancel", "escape")
 
    self.assets:load()

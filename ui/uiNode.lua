@@ -1,4 +1,5 @@
 local class = require("junk.third_party.middleclass")
+local utils = require("junk.utils")
 local game = require("junk.game")
 
 local uiNode = class("uiNode")
@@ -8,8 +9,8 @@ function uiNode:initialize(id, config)
    self.path = config.path or ""
    self.x = config.x or 0
    self.y = config.y or 0
-   self.global_x = 0
-   self.global_y = 0
+   self.global_x = config.global_x or 0
+   self.global_y = config.global_y or 0
    self.width = config.width or 12
    self.height = config.height or 12
    self.visible = config.visible or true
@@ -25,12 +26,31 @@ function uiNode:initialize(id, config)
    self.node_right = config.node_right or nil
 end
 
+function uiNode:ready()
+   if self.node_up then self.node_up = self:getNodeAtPath(self.node_up) end
+   if self.node_down then self.node_down = self:getNodeAtPath(self.node_down) end
+   if self.node_left then self.node_left = self:getNodeAtPath(self.node_left) end
+   if self.node_right then self.node_right = self:getNodeAtPath(self.node_right) end
+   for _,child in ipairs(self.children) do
+      child:ready()
+   end
+end
+
 function uiNode:update(dt)
+   self.has_focus = game.ui.focused_node == self
    for i,child in ipairs(self.children) do
       child.global_x = self.global_x + child.x
       child.global_y = self.global_y + child.y
       child:update(dt)
    end
+end
+
+function uiNode:handleInput()
+   if game.input:isPressed("ui_up") and self.node_up then game.ui.focused_node = self.node_up end
+   if game.input:isPressed("ui_down") and self.node_down then game.ui.focused_node = self.node_down end
+   if game.input:isPressed("ui_left") and self.node_left then game.ui.focused_node = self.node_left end
+   if game.input:isPressed("ui_right") and self.node_right then game.ui.focused_node = self.node_right end
+   -- Other functionality implemented in child classes.
 end
 
 function uiNode:draw()
@@ -63,7 +83,7 @@ function uiNode:getChild(id)
 end
 
 function uiNode:getNodeAtPath(path)
-   local ids = SplitStr(path, "/")
+   local ids = utils.splitStr(path, "/")
    if #ids == 0 then return nil end
    local current_node = self
    for i,id in ipairs(ids) do
