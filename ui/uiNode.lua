@@ -34,6 +34,7 @@ function uiNode:update(dt)
 end
 
 function uiNode:draw()
+   if not self.visible then return end
    for i,child in ipairs(self.children) do
       child:draw()
    end

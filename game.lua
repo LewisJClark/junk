@@ -5,8 +5,10 @@ local utils = require("junk.utils")
 local uiRoot = require("junk.ui.uiRoot")
 
 --[[ 
-   game represent the state of the current game. It contains thing
-   such as the root UI node as well as global tweeners and time scales.
+   This represents the current state of the game, at least as Junk sees it.
+   Modules can require this module in order to modify the overall game state by
+   changing rooms, changing window sizes etc. It's via this module that the game's
+   asset, input and ui managers are accessed too.
 ]]
 local game = {
    base_width = 384,
@@ -20,11 +22,11 @@ local game = {
 
    canvas = nil, 
 
-   assets = assetManager:new(),                         -- Asset manager for the game.
-   input = inputManager:new(),                          -- Input manager for the game.
-   ui = uiRoot:new(),                                   -- The root UI node of the game.
-   rooms = {},                                          -- List of rooms available in the game.
-   current_room = nil,                                  -- The current room of the game.
+   assets = assetManager:new(),      -- Asset manager for the game.
+   input = inputManager:new(),       -- Input manager for the game.
+   ui = uiRoot:new(),                -- The root UI node of the game.
+   rooms = {},                       -- List of rooms available in the game.
+   current_room = nil,               -- The current room of the game.
    time_scale = 1,
    scaled_delta = 0,
    delta_tween = tweener:new(),
