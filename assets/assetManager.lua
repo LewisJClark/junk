@@ -1,15 +1,22 @@
-require "frengine.utils"
+local utils = require("junk.utils")
+local sprite = require("junk.assets.sprite")
 
-AssetLib = {
-   fonts = {},
-   images = {},
-   sprites = {},
-   sounds = {},
-   shaders = {},
-   tilesets = {}
-}
+local assetManager = {}
+assetManager.__index = assetManager
 
-function AssetLib:load()
+function assetManager:new()
+   local l = {
+      fonts = {},
+      images = {},
+      sprites = {},
+      sounds = {},
+      shaders = {},
+      tilesets = {}
+   }
+   return setmetatable(l, assetManager)
+end
+
+function assetManager:load()
    -- Load fonts.
    if love.filesystem.getInfo("assets/fonts.lua") ~= nil then
       self.fonts = require("assets/fonts")
@@ -19,7 +26,7 @@ function AssetLib:load()
    end
 
    -- Load the raw image files.
-   local spriteFiles = GetFiles("assets/images")
+   local spriteFiles = utils.getFiles("assets/images")
    for _,v in ipairs(spriteFiles) do
       local filename, _ = v:match("^.+/(.+)%.(.+)$")
       self.images[filename] = love.graphics.newImage(v)
@@ -68,8 +75,22 @@ function AssetLib:load()
    end
 end
 
-function AssetLib:loadParticles()
+function assetManager:createSprite(sprite_name)
+   local sprite_to_instance = self.sprites[sprite_name]
+   local new_sprite = sprite:new()
+   for k,v in pairs(sprite_to_instance) do
+      new_sprite[k] = v
+   end
+   return new_sprite
+end
+
+function assetManager:loadParticles()
    if love.filesystem.getInfo("assets/particles.lua") ~= nil then
       self.particles = love.filesystem.load("assets/particles.lua")()
+      for _,v in pairs(self.particles) do
+         v.image = self.images[v.image]
+      end
    end
 end
+
+return assetManager

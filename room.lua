@@ -1,4 +1,4 @@
-Class = require "frengine.third_party.middleclass"
+local class = require("junk.third_party.middleclass")
 
 --[[
    A room is a level or screen in a game. I copied this terminology
@@ -6,16 +6,18 @@ Class = require "frengine.third_party.middleclass"
    in the game should inherit from this.
 ]]
 
-Room = Class("Room")
+local room = class("room")
 
-function Room:initialize(name)
-   self.name = "Room"
+function room:initialize(name)
+   self.name = "room"
 end
 
-function Room:enter() end
+function room:enter() end
 
-function Room:update(dt) end
+function room:update(dt) end
 
-function Room:draw() end
+function room:draw() end
 
-function Room:leave() end
+function room:leave() end
+
+return room

@@ -1,43 +1,42 @@
-require "frengine.assets.assetLib"
-require "frengine.utils"
+local utils = require("junk.utils")
 
-Tilemap = {}
-Tilemap.__index = Tilemap
+local tilemap = {}
+tilemap.__index = tilemap
 
-function Tilemap:new(w, h, tileset)
-   local newTilemap = {
+function tilemap:new(w, h, tileset)
+   local new_tilemap = {
       width = w,
       height = h,
-      tiles = Create2dArray(w, h),
+      tiles = utils.create2dArray(w, h),
       tileset = tileset
    }
-   return setmetatable(newTilemap, Tilemap)
+   return setmetatable(new_tilemap, tilemap)
 end
 
-function Tilemap:set(x, y, tile)
+function tilemap:set(x, y, tile)
    if x < 1 or x > self.width then return end
    if y < 1 or y > self.height then return end
    self.tiles[x][y] = tile
 end
 
-function Tilemap:setNamed(x, y, tileName)
+function tilemap:setNamed(x, y, tile_name)
    if x < 1 or x > self.width then return end
    if y < 1 or y > self.height then return end
-   local tile = self.tileset.namedTiles[tileName]
+   local tile = self.tileset.namedTiles[tile_name]
    if tile == nil then return end
    self.tiles[x][y] = tile
 end
 
-function Tilemap:setNamedRandom(x, y, tileName)
+function tilemap:setNamedRandom(x, y, tile_name)
    if x < 1 or x > self.width then return end
    if y < 1 or y > self.height then return end
-   local namedTile = self.tileset.namedTiles[tileName]
-   local tile = namedTile[math.random(1, #namedTile)]
+   local named_tile = self.tileset.namedTiles[tile_name]
+   local tile = named_tile[math.random(1, #named_tile)]
    if tile == nil then return end
    self.tiles[x][y] = tile
 end
 
-function Tilemap:draw(x, y)
+function tilemap:draw(x, y)
    for xx=1,self.width do
       for yy=1,self.height do
          local tileIndex = self.tiles[xx][yy] or 0
@@ -49,3 +48,5 @@ function Tilemap:draw(x, y)
       end
    end
 end
+
+return tilemap

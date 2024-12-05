@@ -1,13 +1,15 @@
-require "frengine.vector"
-local class = require "frengine.third_party.middleclass"
+local vector = require("junk.types.vector")
+local class = require("junk.third_party.middleclass")
 
 local nextEntityId = 1
 
-Entity = class("Entity")
+local entity = class("entity")
 
-function Entity:initialize(x, y, room)
+function entity:initialize(x, y, room)
    self.id = nextEntityId
    nextEntityId = nextEntityId + 1
-   self.position = Vector:new(x, y)
+   self.position = vector:new(x, y)
    self.room = room
 end
+
+return entity

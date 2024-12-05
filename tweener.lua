@@ -42,7 +42,7 @@ Tween.__index = Tween
 
 function Tween:new(target, duration, params)
    local t = {
-      controller = nil, -- Instance of Tweener that tween belongs to.
+      controller = nil, -- Instance of tweener that tween belongs to.
       progress = 0,
       delay = 0,
       paused = false,
@@ -88,23 +88,23 @@ function Tween:stop()
    controller:remove(self)
 end
 
--- Tweener.
-Tweener = {}
-Tweener.__index = Tweener
+-- tweener.
+local tweener = {}
+tweener.__index = tweener
 
-function Tweener:new()
+function tweener:new()
    local t = { tweens = {} }
-   return setmetatable(t, Tweener)
+   return setmetatable(t, tweener)
 end
 
-function Tweener:to(target, duration, params)
+function tweener:to(target, duration, params)
    local new_tween = Tween:new(target, duration, params)
    new_tween.controller = self
    self.tweens[target] = new_tween
    return new_tween
 end
 
-function Tweener:update(dt)
+function tweener:update(dt)
    for k,tween in pairs(self.tweens) do
       if not tween.paused then
          if tween.delay > 0 then
@@ -125,6 +125,8 @@ function Tweener:update(dt)
    end
 end
 
-function Tweener:remove(tween)
+function tweener:remove(tween)
    self.tweens[tween] = nil
 end
+
+return tweener

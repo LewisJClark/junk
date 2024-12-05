@@ -1,16 +1,21 @@
-require "frengine.vector"
+local vector = require("junk.types.vector")
 
 local UP = 0
 local DOWN = 1
 local PRESSED = 2
 local RELEASED = 3
 
-Input = {
-   mousePos = Vector:new(0, 0),
-   actions = {}
-}
+local inputManager = {}
+inputManager.__index = inputManager
 
-function Input:addAction(name, key, mbutton)
+function inputManager:new()
+   return setmetatable({
+      mouse_pos = vector:new(0, 0),
+      actions = {}
+   }, inputManager)
+end
+
+function inputManager:addAction(name, key, mbutton)
    self.actions[name] = {
       state=UP,
       lastState=UP,
@@ -20,8 +25,8 @@ function Input:addAction(name, key, mbutton)
    }
 end
 
-function Input:update()
-   self.mousePos.x, self.mousePos.y = love.mouse.getPosition()
+function inputManager:update()
+   self.mouse_pos.x, self.mouse_pos.y = love.mouse.getPosition()
    for _,action in pairs(self.actions) do
       action.lastState = action.state
       local newState = UP
@@ -45,7 +50,9 @@ function Input:update()
    end
 end
 
-function Input:isUp(actionName) return self.actions[actionName].state == UP end
-function Input:isDown(actionName) return self.actions[actionName].state == DOWN end
-function Input:isPressed(actionName) return self.actions[actionName].state == PRESSED end
-function Input:isReleased(actionName) return self.actions[actionName].state == RELEASED end
+function inputManager:isUp(actionName) return self.actions[actionName].state == UP end
+function inputManager:isDown(actionName) return self.actions[actionName].state == DOWN end
+function inputManager:isPressed(actionName) return self.actions[actionName].state == PRESSED end
+function inputManager:isReleased(actionName) return self.actions[actionName].state == RELEASED end
+
+return inputManager
