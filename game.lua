@@ -14,7 +14,10 @@ local game = {
    base_width = 384,
    base_height = 216,
    render_scale = 1,
-   colours = {},
+   colours = {
+      white={ 1, 1, 1, 1 },
+      black={ 0, 0, 0, 1 },
+   },
 
    window_title = "game",
    window_width = 384,
@@ -68,6 +71,10 @@ end
 
 -- Window management ----------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+-- Rendering ------------------------------------------------------------------------------------------------------------------------------------------------
+
 function game:setRenderScale(scale)
    self.render_scale = scale
    self.window_width = self.base_width * scale
@@ -75,10 +82,15 @@ function game:setRenderScale(scale)
    love.window.setMode(self.window_width, self.window_height)
 end
 
--- Rendering ------------------------------------------------------------------------------------------------------------------------------------------------
-
 function game:registerColour(name, r, g, b, a)
-   self.colours[name] = utils.normalizeColour({ r=r, g=g, b=b, a=a})
+   self.colours[name] = utils.normalizeColour({ r, g, b, a})
+end
+
+function game:getColourCopy(name)
+   if self.colours[name] ~= nil then
+      local col = self.colours[name]
+      return { col[1], col[2], col[3], col[4] }
+   end
 end
 
 -- Room management ------------------------------------------------------------------------------------------------------------------------------------------
