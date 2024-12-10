@@ -20,6 +20,11 @@ function timer:once(delay, callback)
    return timer:new("once", delay, callback)
 end
 
+function timer:runCallback()
+   self.callback()
+   return self
+end
+
 function timer:update(dt)
    if self.running ~= true then return end
    self.remaining = self.remaining - dt
