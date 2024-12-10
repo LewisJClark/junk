@@ -28,10 +28,10 @@
 
    normalizeColour = function(color)
       return {
-         r = color.r * (1/255),
-         g = color.g * (1/255),
-         b = color.b * (1/255),
-         a = color.a * (1/255)
+         color[1] * (1/255),
+         color[2] * (1/255),
+         color[3] * (1/255),
+         color[4] * (1/255)
       }
    end,
 
