@@ -1,6 +1,5 @@
 local assetManager = require("junk.assets.assetManager")
 local inputManager = require("junk.inputManager")
-local room = require("junk.room")
 local tweener = require("junk.tweener")
 local utils = require("junk.utils")
 local uiRoot = require("junk.ui.uiRoot")
@@ -30,7 +29,9 @@ local game = {
    input = inputManager:new(),          -- Input manager for the game.
    ui = uiRoot:new(),                   -- The root UI node of the game.
    rooms = {},                          -- List of rooms available in the game.
-   current_room = room:new("initial"),  -- The current room of the game.
+   entities = {},                       -- List of entities available in the game.
+   current_room = nil,                  -- The current room of the game.
+
    time_scale = 1,
    scaled_delta = 0,
    delta_tween = tweener:new(),
@@ -70,10 +71,6 @@ function game:update(dt)
    self.ui:update(dt)
 end
 
--- Window management ----------------------------------------------------------------------------------------------------------------------------------------
-
-
-
 -- Rendering ------------------------------------------------------------------------------------------------------------------------------------------------
 
 function game:setRenderScale(scale)
@@ -106,6 +103,12 @@ function game:gotoRoom(name)
       self.current_room = self.rooms[name]:new()
       self.current_room:enter()
    end
+end
+
+-- Entity management ----------------------------------------------------------------------------------------------------------------------------------------
+
+function game:registerEntity(name, entity)
+   self.entities[name] = entity
 end
 
 return game
