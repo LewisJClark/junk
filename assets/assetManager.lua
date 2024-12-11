@@ -21,7 +21,7 @@ function assetManager:load()
    if love.filesystem.getInfo("assets/fonts.lua") ~= nil then
       self.fonts = require("assets/fonts")
       for k,v in pairs(self.fonts) do
-         self.fonts[k] = love.graphics.newImageFont(v.file, v.glyphs, v.spacing or 0)
+         self.fonts[k] = love.graphics.newFont(v.file, v.size)
       end
    end
 
