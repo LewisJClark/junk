@@ -1,5 +1,6 @@
 local assetManager = require("junk.assets.assetManager")
 local inputManager = require("junk.inputManager")
+local room = require("junk.room")
 local tweener = require("junk.tweener")
 local utils = require("junk.utils")
 local uiRoot = require("junk.ui.uiRoot")
@@ -25,11 +26,11 @@ local game = {
 
    canvas = nil, 
 
-   assets = assetManager:new(),      -- Asset manager for the game.
-   input = inputManager:new(),       -- Input manager for the game.
-   ui = uiRoot:new(),                -- The root UI node of the game.
-   rooms = {},                       -- List of rooms available in the game.
-   current_room = nil,               -- The current room of the game.
+   assets = assetManager:new(),         -- Asset manager for the game.
+   input = inputManager:new(),          -- Input manager for the game.
+   ui = uiRoot:new(),                   -- The root UI node of the game.
+   rooms = {},                          -- List of rooms available in the game.
+   current_room = room:new("initial"),  -- The current room of the game.
    time_scale = 1,
    scaled_delta = 0,
    delta_tween = tweener:new(),
