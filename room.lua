@@ -1,5 +1,6 @@
-local game = require("junk.game")
+local bump = require("junk.third_party.bump")
 local class = require("junk.third_party.middleclass")
+local game = require("junk.game")
 
 --[[
    A room is a level or screen in a game. I copied this terminology
@@ -14,6 +15,7 @@ function room:initialize(name)
    self.entities = {}
    self.entity_groups = {}
    self.named_entities = {}
+   self.world = bump.newWorld(60)
 end
 
 function room:createEntity(type, x, y, config, name)
@@ -58,6 +60,16 @@ function room:removeEntityFromGroup(entity, group)
    for i=#group,1,-1 do
       if group[i] == entity then table.remove(group, i) end
    end
+end
+
+function room:addCollider(collider)
+   self.world:add(collider, collider.x, collider.y, collider.w, collider.h)
+   collider.world = self.world
+end
+
+function room:removeCollider(collider)
+   self.world:remove(collider)
+   collider.world = nil
 end
 
 function room:enter()
