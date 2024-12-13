@@ -47,6 +47,11 @@ function collider:tryMoveTo(x, y)
    return final_x - self.offset_x, final_y - self.offset_y, collisions
 end
 
+function collider:placeMeeting(x, y)
+   local _, _, collisions, _ = self.world:check(self, x + self.offset_x, y + self.offset_y, self.filter)
+   return collisions
+end
+
 function collider:draw()
    love.graphics.setColor(1, 0, 0, 1)
    love.graphics.rectangle("line", math.floor(self.x) + 0.5, math.floor(self.y) + 0.5, self.w, self.h)
