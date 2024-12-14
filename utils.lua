@@ -26,6 +26,10 @@
       return tree
    end,
 
+   lengthDirX = function(dist, angle) return dist * math.cos(math.rad(angle)) end,
+
+   lengthDirY = function(dist, angle) return dist * math.sin(math.rad(angle)) end,
+
    normalizeColour = function(color)
       return {
          color[1] * (1/255),
