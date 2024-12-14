@@ -52,12 +52,12 @@ function game:init(width, height, title)
 
    self.canvas = love.graphics.newCanvas(self.base_width, self.base_height)
 
-   self.input:addAction("ui_up", "up")
-   self.input:addAction("ui_down", "down")
-   self.input:addAction("ui_left", "left")
-   self.input:addAction("ui_right", "right")
-   self.input:addAction("ui_confirm", "a")
-   self.input:addAction("ui_cancel", "escape")
+   self.input:addAction("ui_up", "key:up", "key:p")
+   self.input:addAction("ui_down", "key:down")
+   self.input:addAction("ui_left", "key:left")
+   self.input:addAction("ui_right", "key:right")
+   self.input:addAction("ui_confirm", "key:return")
+   self.input:addAction("ui_cancel", "key:escape")
 
    self.assets:load()
 end
@@ -88,6 +88,14 @@ function game:getColourCopy(name)
    if self.colours[name] ~= nil then
       local col = self.colours[name]
       return { col[1], col[2], col[3], col[4] }
+   end
+end
+
+function game:drawColliders()
+   if not self.current_room then return end
+   local colliders = self.current_room.world:getItems()
+   for i=1,#colliders do
+      colliders[i]:draw()
    end
 end
 
