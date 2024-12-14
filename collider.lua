@@ -48,7 +48,9 @@ function collider:tryMoveTo(x, y)
 end
 
 function collider:placeMeeting(x, y)
-   local _, _, collisions, _ = self.world:check(self, x + self.offset_x, y + self.offset_y, self.filter)
+   local final_x = x and x + self.offset_x or self.x
+   local final_y = y and y + self.offset_y or self.y
+   local _, _, collisions, _ = self.world:check(self, final_x, final_y, self.filter)
    return collisions
 end
 
