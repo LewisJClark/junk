@@ -38,12 +38,19 @@ function timer:update(dt)
    end
 end
 
-function timer:pause() self.running = false end
+function timer:pause() 
+   self.running = false 
+   return self
+end
 
-function timer:resume() self.running = true end
+function timer:resume() 
+   self.running = true 
+   return self
+end
 
 function timer:reset()
    self.remaining = self.duration
+   return self
 end
 
 return timer
