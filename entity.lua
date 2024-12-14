@@ -22,7 +22,7 @@ function entity:ready()
    -- Called when the entity has been added to a room.
 end
 
-function entity:remove()
+function entity:destroyed()
    -- Called when the entity has been removed from a room.
 end
 
