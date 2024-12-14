@@ -52,7 +52,7 @@ function game:init(width, height, title)
 
    self.canvas = love.graphics.newCanvas(self.base_width, self.base_height)
 
-   self.input:addAction("ui_up", "key:up", "key:p")
+   self.input:addAction("ui_up", "key:up")
    self.input:addAction("ui_down", "key:down")
    self.input:addAction("ui_left", "key:left")
    self.input:addAction("ui_right", "key:right")
