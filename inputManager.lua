@@ -5,48 +5,52 @@ local DOWN = 1
 local PRESSED = 2
 local RELEASED = 3
 
-local inputManager = {}
+local inputManager = {
+   instances = {}
+}
 inputManager.__index = inputManager
 
 function inputManager:new()
-   return setmetatable({
+   local im = setmetatable({
       mouse_pos = vector:new(0, 0),
-      actions = {}
+      actions = {},
+      bindings={}
    }, inputManager)
+   table.insert(self.instances, im)
+   return im
 end
 
-function inputManager:addAction(name, key, mbutton)
-   self.actions[name] = {
-      state=UP,
-      lastState=UP,
-      lastInputType="key",
-      key=key,
-      mbutton=mbutton
-   }
+function inputManager:addAction(name, ...)
+   local args = {...}
+   self.actions[name] = { frames=0, state=UP }
+   for _,input in ipairs(args) do
+      self.bindings[input] = name
+   end
 end
+
+function inputManager:_updateBindingState(binding, state)
+   if self.bindings[binding] then
+      self.actions[self.bindings[binding]].frames = 1
+      self.actions[self.bindings[binding]].state = state
+   end
+end
+
+function love.keypressed(key, scancode, isRepeat) inputManager.instances[1]:_updateBindingState("key:"..key, PRESSED) end
+function love.keyreleased(key, scancode, isRepeat) inputManager.instances[1]:_updateBindingState("key:"..key, RELEASED) end
+function love.gamepadpressed(joystick, button) inputManager.instances[1]:_updateBindingState("pad:"..button, PRESSED) end
+function love.gamepadreleased(joystick, button) inputManager.instances[1]:_updateBindingState("pad:"..button, RELEASED) end
 
 function inputManager:update()
    self.mouse_pos.x, self.mouse_pos.y = love.mouse.getPosition()
    for _,action in pairs(self.actions) do
-      action.lastState = action.state
-      local newState = UP
-      -- Check keyboard inputs.
-      if action.key ~= nil and love.keyboard.isDown(action.key) then
-         if action.lastState == UP then newState = PRESSED
-         else newState = DOWN end
-         action.lastInputType = "key"
-      elseif action.lastInputType == "key" then
-         if action.lastState == DOWN then newState = RELEASED end
+      if action.state == PRESSED and action.frames > 1 then
+         action.state = DOWN 
+         action.frames = 1
+      elseif action.state == RELEASED and action.frames > 1 then
+         action.state = UP
+         action.frames = 1
       end
-      -- Check mouse inputs.
-      if action.mbutton ~= nil and love.mouse.isDown(action.mbutton) then
-         if action.lastState == UP then newState = PRESSED
-         else newState = DOWN end
-         action.lastInputType = "mbutton"
-      elseif action.lastInputType == "mbutton" then
-         if action.lastState == DOWN then newState = RELEASED end
-      end
-      action.state = newState
+      action.frames = action.frames + 1
    end
 end
 
