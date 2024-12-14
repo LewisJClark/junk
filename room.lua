@@ -22,6 +22,7 @@ function room:createEntity(type, x, y, config, name)
    if game.entities[type] == nil then return end
    local e = game.entities[type]:new(self, x, y, config)
    table.insert(self.entities, e)
+   if name then self.named_entities[name] = e end
    e:ready()
    return e
 end
@@ -29,7 +30,7 @@ end
 function room:destroyEntity(entity)
    for i=#self.entities,1,-1 do
       if self.entities[i] == entity then 
-         self.entities[i]:remove()
+         self.entities[i]:destroyed()
          table.remove(self.entities, i)
       end
    end
