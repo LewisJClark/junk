@@ -36,6 +36,15 @@ function vector:isZero()
    return self.x == 0 and self.y == 0
 end
 
+function vector:limitLength(desired)
+   local len = math.sqrt((self.x * self.x) + (self.y * self.y))
+   if len > desired then
+      self.x = (self.x / len) * desired
+      self.y = (self.y / len) * desired
+   end
+   return self
+end
+
 function vector:lengthDir(dist, angle)
    local radians = math.rad(angle)
    return vector:new(self.x + (dist * math.cos(radians)), self.y + (dist * math.sin(radians)))
