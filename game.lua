@@ -15,6 +15,7 @@ local game = {
    base_height = 216,
    render_scale = 1,
    colours = {
+      transparent={ 0, 0, 0, 0 },
       white={ 1, 1, 1, 1 },
       black={ 0, 0, 0, 1 },
    },
@@ -71,12 +72,20 @@ function game:update(dt)
    self.ui:update(dt)
 end
 
+-- Window ---------------------------------------------------------------------------------------------------------------------------------------------------
+
+function game:setWindowBorderless(borderless)
+   love.window.setMode(self.window_width, self.window_height, {borderless=borderless})
+end
+
+
 -- Rendering ------------------------------------------------------------------------------------------------------------------------------------------------
 
 function game:setRenderScale(scale)
    self.render_scale = scale
    self.window_width = self.base_width * scale
    self.window_height = self.base_height * scale
+   self.input.render_scale = scale
    love.window.setMode(self.window_width, self.window_height)
 end
 

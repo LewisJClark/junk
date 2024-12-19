@@ -7,6 +7,7 @@ local PRESSED = 2
 local RELEASED = 3
 
 local inputManager = {
+   render_scale = 1,
    instances = {},
    stick_bindings = {
       leftx = { "pad:lstick_left", "pad:lstick_right" },
@@ -68,6 +69,8 @@ end
 
 function love.keypressed(key, scancode, isRepeat) inputManager.instances[1]:_updateBindingState("key:"..key, PRESSED, 1) end
 function love.keyreleased(key, scancode, isRepeat) inputManager.instances[1]:_updateBindingState("key:"..key, RELEASED, 0) end
+function love.mousepressed(x, y, button) inputManager.instances[1]:_updateBindingState("mouse:"..button, PRESSED, 1) end
+function love.mousereleased(x, y, button) inputManager.instances[1]:_updateBindingState("mouse:"..button, RELEASED, 1) end
 function love.gamepadpressed(joystick, button) inputManager.instances[1]:_updateBindingState("pad:"..button, PRESSED, 1) end
 function love.gamepadreleased(joystick, button) inputManager.instances[1]:_updateBindingState("pad:"..button, RELEASED, 0) end
 function love.gamepadaxis(joystick, axis, value)
@@ -96,6 +99,8 @@ end
 
 function inputManager:update()
    self.mouse_pos.x, self.mouse_pos.y = love.mouse.getPosition()
+   self.mouse_pos.x = math.floor(self.mouse_pos.x / self.render_scale)
+   self.mouse_pos.y = math.floor(self.mouse_pos.y / self.render_scale)
    for _,action in pairs(self.actions) do
       if action.state == PRESSED and action.frames > 1 then
          action.state = DOWN 
