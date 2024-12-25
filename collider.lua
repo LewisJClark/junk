@@ -31,6 +31,7 @@ end
 
 function collider:setFilter(filter)
    self.filter = filter
+   return self
 end
 
 function collider:moveTo(x, y)
