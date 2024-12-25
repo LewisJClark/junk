@@ -84,7 +84,7 @@ function room:update(dt)
 end
 
 function room:draw()
-   for i=#self.entities,1,-1 do
+   for i=1,#self.entities do
       self.entities[i]:draw()
    end
 end
