@@ -2,7 +2,7 @@ local assetManager = require("junk.assets.assetManager")
 local inputManager = require("junk.inputManager")
 local tweener = require("junk.tweener")
 local utils = require("junk.utils")
-local uiRoot = require("junk.ui.uiRoot")
+local uiManager = require("junk.ui.uiManager")
 
 --[[ 
    This represents the current state of the game, at least as Junk sees it.
@@ -23,15 +23,17 @@ local game = {
    window_title = "game",
    window_width = 384,
    window_height = 216,
+   current_font = nil,
 
    canvas = nil, 
 
-   assets = assetManager:new(),         -- Asset manager for the game.
-   input = inputManager:new(),          -- Input manager for the game.
-   ui = uiRoot:new(),                   -- The root UI node of the game.
+   assets = assetManager:new(),
+   input = inputManager:new(),
+   ui = uiManager:new(),               
    rooms = {},                          -- List of rooms available in the game.
    entities = {},                       -- List of entities available in the game.
-   current_room = nil,                  -- The current room of the game.
+   current_room = nil,
+   signals = {},
 
    time_scale = 1,
    scaled_delta = 0,
@@ -137,6 +139,21 @@ end
 function game:registerEntities(entities)
    for name,entity in pairs(entities) do
       self.entities[name] = entity
+   end
+end
+
+-- Signals --------------------------------------------------------------------------------------------------------------------------------------------------
+
+function game:addSignalListener(name, listener)
+   if not self.signals[name] then self.signals[name] = {} end
+   table.insert(self.signals[name], listener)
+end
+
+function game:emitSignal(name, params)
+   local listeners = self.signals[name]
+   if not listeners or #listeners < 1 then return end
+   for _,listener in ipairs(self.signals[name]) do
+      listener(params)
    end
 end
 
