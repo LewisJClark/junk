@@ -1,11 +1,11 @@
  return {
 
-   create2dArray = function(w, h)
+   create2dArray = function(w, h, default_value)
       local r = {}
       for x=1, w do
          r[x] = {}
          for y=1, h do
-            r[x][y] = nil
+            r[x][y] = default_value
          end
       end
       return r
