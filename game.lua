@@ -80,7 +80,6 @@ function game:setWindowBorderless(borderless)
    love.window.setMode(self.window_width, self.window_height, {borderless=borderless})
 end
 
-
 -- Rendering ------------------------------------------------------------------------------------------------------------------------------------------------
 
 function game:setRenderScale(scale)
@@ -112,33 +111,11 @@ end
 
 -- Room management ------------------------------------------------------------------------------------------------------------------------------------------
 
-function game:registerRoom(name, room)
-   self.rooms[name] = room
-end
-
-function game:registerRooms(rooms)
-   for name,room in pairs(rooms) do
-      self.rooms[name] = room
-   end
-end
-
 function game:gotoRoom(name)
-   if self.rooms[name] ~= nil then
+   if _G[name] ~= nil then
       if self.current_room then self.current_room:leave() end
-      self.current_room = self.rooms[name]:new()
+      self.current_room = _G[name]:new()
       self.current_room:enter()
-   end
-end
-
--- Entity management ----------------------------------------------------------------------------------------------------------------------------------------
-
-function game:registerEntity(name, entity)
-   self.entities[name] = entity
-end
-
-function game:registerEntities(entities)
-   for name,entity in pairs(entities) do
-      self.entities[name] = entity
    end
 end
 
