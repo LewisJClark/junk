@@ -5,11 +5,12 @@ local nextEntityId = 1
 
 local entity = class("entity")
 
-function entity:initialize(room, x, y, config)
+function entity:initialize(room, layer, x, y, config)
    self.id = nextEntityId
    nextEntityId = nextEntityId + 1
    self.position = vector:new(x, y)
    self.room = room
+   self.room_layer = layer
 end
 
 function entity:update(dt)
