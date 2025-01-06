@@ -57,7 +57,7 @@ end
 
 function collider:draw()
    love.graphics.setColor(1, 0, 0, 1)
-   love.graphics.rectangle("line", math.floor(self.x) + 0.5, math.floor(self.y) + 0.5, self.w, self.h)
+   love.graphics.rectangle("line", math.floor(self.x) + 0.5, math.floor(self.y) + 0.5, self.w-1, self.h-1)
    love.graphics.setColor(1, 1, 1, 1)
 end
 

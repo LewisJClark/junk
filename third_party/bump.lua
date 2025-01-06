@@ -122,8 +122,9 @@ local bump = {
  end
  
  local function rect_containsPoint(x,y,w,h, px,py)
-   return px - x > DELTA      and py - y > DELTA and
-          x + w - px > DELTA  and y + h - py > DELTA
+   return px >= x and px < x + w and py >= y and py < y + h
+   --return px - x > DELTA      and py - y > DELTA and
+   --       x + w - px > DELTA  and y + h - py > DELTA
  end
  
  local function rect_isIntersecting(x1,y1,w1,h1, x2,y2,w2,h2)
