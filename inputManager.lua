@@ -127,4 +127,8 @@ function inputManager:getVector(negative_x, positive_x, negative_y, positive_y)
    )
 end
 
+function inputManager:setMouseVisible(visible)
+   love.mouse.setVisible(visible)
+end
+
 return inputManager
