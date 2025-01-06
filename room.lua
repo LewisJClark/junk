@@ -110,4 +110,9 @@ function room:leave()
    -- Called when the room is left.
 end
 
+function room:positionMeeting(x, y, filter)
+   local colliders = self.world:queryPoint(x, y, filter)
+   return colliders
+end
+
 return room
