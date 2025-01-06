@@ -35,13 +35,13 @@ function room:createLayers(...)
    end
 end
 
-function room:createEntity(type, x, y, config, layer, name)
+function room:createEntity(type, layer, x, y, config, name)
    if _G[type] == nil then return end
    if self.layer_lookup[layer] == nil then return end
 
-   local layer = self.layer_lookup[layer]
-   local e = _G[type]:new(self, layer, x, y, config)
-   layer:addEntity(e)
+   local target_layer = self.layer_lookup[layer]
+   local e = _G[type]:new(self, target_layer, x, y, config)
+   target_layer:addEntity(e)
    if name then self.named_entities[name] = e end
 
    e:ready()
