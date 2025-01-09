@@ -1,4 +1,3 @@
-local vector = require("junk.types.vector")
 local class = require("junk.third_party.middleclass")
 
 local nextEntityId = 1
@@ -8,7 +7,8 @@ local entity = class("entity")
 function entity:initialize(room, layer, x, y, config)
    self.id = nextEntityId
    nextEntityId = nextEntityId + 1
-   self.position = vector:new(x, y)
+   self.x = x
+   self.y = y
    self.room = room
    self.room_layer = layer
 end

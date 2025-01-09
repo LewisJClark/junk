@@ -1,4 +1,3 @@
-local vector = require("junk.types.vector")
 local utils = require("junk.utils")
 
 local UP = 0
@@ -20,7 +19,8 @@ inputManager.__index = inputManager
 
 function inputManager:new()
    local im = setmetatable({
-      mouse_pos = vector:new(0, 0),
+      mouse_x = 0,
+      mouse_y = 0,
       leftx = 0,
       lefty = 0,
       rightx = 0,
@@ -98,9 +98,9 @@ function love.gamepadaxis(joystick, axis, value)
 end
 
 function inputManager:update()
-   self.mouse_pos.x, self.mouse_pos.y = love.mouse.getPosition()
-   self.mouse_pos.x = math.floor(self.mouse_pos.x / self.render_scale)
-   self.mouse_pos.y = math.floor(self.mouse_pos.y / self.render_scale)
+   self.mouse_x, self.mouse_y = love.mouse.getPosition()
+   self.mouse_x = math.floor(self.mouse_x / self.render_scale)
+   self.mouse_y = math.floor(self.mouse_y / self.render_scale)
    for _,action in pairs(self.actions) do
       if action.state == PRESSED and action.frames > 1 then
          action.state = DOWN 
@@ -121,10 +121,9 @@ function inputManager:getAxis(negative, positive)
    return self.actions[positive].strength - self.actions[negative].strength
 end
 function inputManager:getVector(negative_x, positive_x, negative_y, positive_y)
-   return vector:new(
+   return
       self.actions[positive_x].strength - self.actions[negative_x].strength,
       self.actions[positive_y].strength - self.actions[negative_y].strength
-   )
 end
 
 function inputManager:setMouseVisible(visible)

@@ -54,6 +54,10 @@ function vector:angleTo(x, y)
    return math.deg(math.atan2(y - self.y, x - self.x))
 end
 
+function vector:distanceTo(other)
+   return vector:new(other.x - self.x, other.y - self.y):length()
+end
+
 function vector.__add(a, b)
    if type(a) == "number" then return vector:new(b.x + a, b.y + a) end
    if type(b) == "number" then return vector:new(a.x + b, a.y + b) end
