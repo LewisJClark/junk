@@ -61,6 +61,8 @@ function game:init(width, height, title)
    self.input:addAction("ui_right", "key:right")
    self.input:addAction("ui_confirm", "key:return")
    self.input:addAction("ui_cancel", "key:escape")
+   self.input:addAction("left_mouse", "mouse:1")
+   self.input:addAction("right_mouse", "mouse:2")
 
    self.assets:load()
 end
