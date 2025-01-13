@@ -43,6 +43,10 @@ function assetManager:load()
             sprite.frames[i] = love.graphics.newQuad(frame[1], frame[2], frame[3], frame[4], image:getWidth(), image:getHeight())
          end
          self.sprites[k].image = image
+         if sprite.origin == "centered" then 
+            sprite.origin_x = math.floor(image:getWidth() / 2)
+            sprite.origin_y = math.floor(image:getHeight() / 2)
+         end
       end
    end
 
