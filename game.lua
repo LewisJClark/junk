@@ -14,18 +14,21 @@ local game = {
    base_width = 384,
    base_height = 216,
    render_scale = 1,
+   canvas = nil,
+   canvas_stack = {},
+   shader_stack = {},
+
    colours = {
       transparent={ 0, 0, 0, 0 },
       white={ 1, 1, 1, 1 },
       black={ 0, 0, 0, 1 },
    },
-
+   
    window_title = "game",
    window_width = 384,
    window_height = 216,
    current_font = nil,
 
-   canvas = nil, 
 
    assets = assetManager:new(),
    input = inputManager:new(),
@@ -54,6 +57,8 @@ function game:init(width, height, title)
    love.graphics.setDefaultFilter("nearest", "nearest")
 
    self.canvas = love.graphics.newCanvas(self.base_width, self.base_height)
+   table.insert(self.canvas_stack, self.canvas)
+   table.insert(self.shader_stack, love.graphics.getShader())
 
    self.input:addAction("ui_up", "key:up")
    self.input:addAction("ui_down", "key:down")
@@ -109,6 +114,26 @@ function game:drawColliders()
    for i=1,#colliders do
       colliders[i]:draw()
    end
+end
+
+function game:pushCanvas(canvas)
+   table.insert(self.canvas_stack, canvas)
+   love.graphics.setCanvas(canvas)
+end
+
+function game:popCanvas()
+   table.remove(self.canvas_stack, #self.canvas_stack)
+   love.graphics.setCanvas(self.canvas_stack[#self.canvas_stack])
+end
+
+function game:pushShader(shader)
+   table.insert(self.shader_stack, shader)
+   love.graphics.setShader(shader)
+end
+
+function game:popShader()
+   table.remove(self.shader_stack, #self.shader_stack)
+   love.graphics.setShader(self.shader_stack[#self.shader_stack])
 end
 
 -- Room management ------------------------------------------------------------------------------------------------------------------------------------------
