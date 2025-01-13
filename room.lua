@@ -26,6 +26,7 @@ function room:createLayer(name)
    local layer = roomLayer:new(name)
    table.insert(self.layers, layer)
    self.layer_lookup[name] = layer
+   return layer
 end
 
 function room:createLayers(...)
