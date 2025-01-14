@@ -38,14 +38,39 @@ function assetManager:load()
    if love.filesystem.getInfo("assets/sprites.lua") ~= nil then
       self.sprites = require("assets/sprites")
       for k,sprite in pairs(self.sprites) do
-         local image = self.images[sprite.imageName]
+         local image = self.images[sprite.image_name]
+         if not sprite.frames then sprite.frames = {{0,0,image:getWidth(),image:getHeight()}} end
          for i,frame in ipairs(sprite.frames) do
             sprite.frames[i] = love.graphics.newQuad(frame[1], frame[2], frame[3], frame[4], image:getWidth(), image:getHeight())
          end
          self.sprites[k].image = image
-         if sprite.origin == "centered" then 
+         if sprite.origin == "top_left" then
+            sprite.origin_x = 0
+            sprite.origin_y = 0
+         elseif sprite.origin == "top_center" then
+            sprite.origin_x = math.floor(image:getWidth() / 2)
+            sprite.origin_y = 0
+         elseif sprite.origin == "top_right" then
+            sprite.origin_x = math.floor(image:getWidth()-1)
+            sprite.origin_y = 0
+         elseif sprite.origin == "center_left" then
+            sprite.origin_x = 0
+            sprite.origin_y = math.floor(image:getHeight() / 2)
+         elseif sprite.origin == "centered" then 
             sprite.origin_x = math.floor(image:getWidth() / 2)
             sprite.origin_y = math.floor(image:getHeight() / 2)
+         elseif sprite.origin == "center_right" then
+            sprite.origin_x = math.floor(image:getWidth()-1)
+            sprite.origin_y = math.floor(image:getHeight() / 2)
+         elseif sprite.origin == "bottom_left" then
+            sprite.origin_x = 0
+            sprite.origin_y = math.floor(image:getHeight()-1)
+         elseif sprite.origin == "bottom_center" then 
+            sprite.origin_x = math.floor(image:getWidth() / 2)
+            sprite.origin_y = math.floor(image:getHeight()-1)
+         elseif sprite.origin == "bottom_right" then
+            sprite.origin_x = math.floor(image:getWidth()-1)
+            sprite.origin_y = math.floor(image:getHeight()-1)
          end
       end
    end
