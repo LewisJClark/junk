@@ -51,14 +51,6 @@ function room:createEntity(kind, layer, x, y, config, name)
    return e
 end
 
-function room:addEntity(layer, entity)
-   local target_layer = self.layer_lookup[layer]
-   if target_layer == nil then return end
-   target_layer:addEntity(entity)
-   if name then self.named_entities[name] = e end
-   e:ready()
-end
-
 function room:destroyEntity(entity)
    entity.room_layer:removeEntity(entity)
    entity:destroyed()
