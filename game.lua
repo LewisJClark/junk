@@ -29,8 +29,7 @@ local game = {
    window_height = 216,
    current_font = nil,
 
-
-   assets = assetManager:new(),
+   assets = assetManager,
    input = inputManager:new(),
    ui = uiManager:new(),               
    rooms = {},                          -- List of rooms available in the game.
