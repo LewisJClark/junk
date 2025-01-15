@@ -38,6 +38,10 @@ end
 
 local tiledRoom = class("tiledRoom", room)
 
+--[[
+   A tiled room is just like a normal room apart from it will create layers and
+   populate them based on a Tiled Map Editor export.
+]]
 function tiledRoom:initialize(name, filename)
    room.initialize(self, name)
    local room_data = require(filename)
