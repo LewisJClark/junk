@@ -1,20 +1,14 @@
 local utils = require("junk.utils")
 local sprite = require("junk.assets.sprite")
 
-local assetManager = {}
-assetManager.__index = assetManager
-
-function assetManager:new()
-   local l = {
-      fonts = {},
-      images = {},
-      sprites = {},
-      sounds = {},
-      shaders = {},
-      tilesets = {}
-   }
-   return setmetatable(l, assetManager)
-end
+local assetManager = {
+   fonts = {},
+   images = {},
+   sprites = {},
+   sounds = {},
+   shaders = {},
+   tilesets = {}
+}
 
 function assetManager:load()
    -- Load fonts.
