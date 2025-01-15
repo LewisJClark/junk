@@ -1,6 +1,5 @@
 local bump = require("junk.third_party.bump")
 local class = require("junk.third_party.middleclass")
-local game = require("junk.game")
 local roomLayer = require("junk.roomLayer")
 
 --[[
@@ -36,17 +35,28 @@ function room:createLayers(...)
    end
 end
 
-function room:createEntity(type, layer, x, y, config, name)
-   if _G[type] == nil then return end
-   if self.layer_lookup[layer] == nil then return end
-
+function room:createEntity(kind, layer, x, y, config, name)
    local target_layer = self.layer_lookup[layer]
-   local e = _G[type]:new(self, target_layer, x, y, config)
+   if target_layer == nil then return end
+   local e
+   if type(kind) == "string" then
+      e = _G[kind]:new(self, target_layer, x, y, config)
+   else
+      e = kind:new(self, target_layer, x, y, config)
+   end
    target_layer:addEntity(e)
    if name then self.named_entities[name] = e end
 
    e:ready()
    return e
+end
+
+function room:addEntity(layer, entity)
+   local target_layer = self.layer_lookup[layer]
+   if target_layer == nil then return end
+   target_layer:addEntity(entity)
+   if name then self.named_entities[name] = e end
+   e:ready()
 end
 
 function room:destroyEntity(entity)
@@ -113,6 +123,13 @@ end
 
 function room:positionMeeting(x, y, filter)
    local colliders = self.world:queryPoint(x, y, filter)
+   return colliders
+end
+
+function room:positionMeetingGroup(x, y, group)
+   local colliders = self.world:queryPoint(x, y, function(item) 
+      return item:isInGroup(group)
+   end)
    return colliders
 end
 
