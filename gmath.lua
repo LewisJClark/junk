@@ -3,7 +3,7 @@ local gmath = {
 
    lengthDirY = function(dist, angle) return dist * math.sin(math.rad(angle)) end,
 
-   pointDir = function(x1, y1, x2, y2) math.deg(math.atan2(y2 - y1, x2 - x1)) end,
+   pointDir = function(x1, y1, x2, y2) return math.deg(math.atan2(y2 - y1, x2 - x1)) end,
 
    pointDist = function(x1, y1, x2, y2) 
       local x = x2 - x1
