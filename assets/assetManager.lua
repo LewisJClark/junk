@@ -34,38 +34,39 @@ function assetManager:load()
       for k,sprite in pairs(self.sprites) do
          local image = self.images[sprite.image_name]
          if not sprite.frames then sprite.frames = {{0,0,image:getWidth(),image:getHeight()}} end
-         for i,frame in ipairs(sprite.frames) do
-            sprite.frames[i] = love.graphics.newQuad(frame[1], frame[2], frame[3], frame[4], image:getWidth(), image:getHeight())
-         end
-         self.sprites[k].image = image
+         local first_frame = sprite.frames[1]
          if sprite.origin == "top_left" then
             sprite.origin_x = 0
             sprite.origin_y = 0
          elseif sprite.origin == "top_center" then
-            sprite.origin_x = math.floor(image:getWidth() / 2)
+            sprite.origin_x = math.floor(first_frame[3] / 2)
             sprite.origin_y = 0
          elseif sprite.origin == "top_right" then
-            sprite.origin_x = math.floor(image:getWidth()-1)
+            sprite.origin_x = math.floor(first_frame[3]-1)
             sprite.origin_y = 0
          elseif sprite.origin == "center_left" then
             sprite.origin_x = 0
-            sprite.origin_y = math.floor(image:getHeight() / 2)
+            sprite.origin_y = math.floor(first_frame[4] / 2)
          elseif sprite.origin == "centered" then 
-            sprite.origin_x = math.floor(image:getWidth() / 2)
-            sprite.origin_y = math.floor(image:getHeight() / 2)
+            sprite.origin_x = math.floor(first_frame[3] / 2)
+            sprite.origin_y = math.floor(first_frame[4] / 2)
          elseif sprite.origin == "center_right" then
-            sprite.origin_x = math.floor(image:getWidth()-1)
-            sprite.origin_y = math.floor(image:getHeight() / 2)
+            sprite.origin_x = math.floor(first_frame[3]-1)
+            sprite.origin_y = math.floor(first_frame[4] / 2)
          elseif sprite.origin == "bottom_left" then
             sprite.origin_x = 0
-            sprite.origin_y = math.floor(image:getHeight()-1)
+            sprite.origin_y = math.floor(first_frame[4]-1)
          elseif sprite.origin == "bottom_center" then 
-            sprite.origin_x = math.floor(image:getWidth() / 2)
-            sprite.origin_y = math.floor(image:getHeight()-1)
+            sprite.origin_x = math.floor(first_frame[3] / 2)
+            sprite.origin_y = math.floor(first_frame[4]-1)
          elseif sprite.origin == "bottom_right" then
-            sprite.origin_x = math.floor(image:getWidth()-1)
-            sprite.origin_y = math.floor(image:getHeight()-1)
+            sprite.origin_x = math.floor(first_frame[3]-1)
+            sprite.origin_y = math.floor(first_frame[4]-1)
          end
+         for i,frame in ipairs(sprite.frames) do
+            sprite.frames[i] = love.graphics.newQuad(frame[1], frame[2], frame[3], frame[4], image:getWidth(), image:getHeight())
+         end
+         self.sprites[k].image = image
       end
    end
 
