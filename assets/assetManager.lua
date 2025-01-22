@@ -79,8 +79,8 @@ function assetManager:load()
          local tilesDown = image:getHeight() / tileset.tileHeight
          local tileCount = 1;
          tileset.tiles = {}
-         for y=0,tilesDown do
-            for x=0,tilesAcross do
+         for y=0,tilesDown-1 do
+            for x=0,tilesAcross-1 do
                tileset.tiles[tileCount] = love.graphics.newQuad(x * tileset.tileWidth, y * tileset.tileHeight, tileset.tileWidth, tileset.tileHeight, image:getWidth(), image:getHeight())
                tileCount = tileCount + 1
             end
