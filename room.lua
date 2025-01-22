@@ -21,7 +21,9 @@ function room:initialize(name)
 end
 
 function room:createLayer(name)
-   if self.layer_lookup[name] ~= nil then return end
+   if self.layer_lookup[name] ~= nil then
+      error("Room layer '"..name.." already exists")
+   end
    local layer = roomLayer:new(name)
    table.insert(self.layers, layer)
    self.layer_lookup[name] = layer

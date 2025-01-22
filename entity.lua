@@ -36,15 +36,18 @@ function entity:setSignals(...)
 end
 
 function entity:emitSignal(name, params)
-   if self.signals[name] then
-      for _,listener in ipairs(self.signals[name]) do
-         listener(params)
-      end
+   if not self.signals[name] then
+      error("Entity does not have a signal called '"..name.."'")
+   end
+   for _,listener in ipairs(self.signals[name]) do
+      listener(params)
    end
 end
 
 function entity:addSignalListener(signal, listener)
-   if not self.signals[signal] then return end
+   if not self.signals[signal] then
+      error("Entity does not have a signal called '"..signal.."'")
+   end
    table.insert(self.signals[signal], listener)
 end
 
