@@ -7,6 +7,7 @@ local roomLayer = class("roomLayer")
 function roomLayer:initialize(name)
    self.name = name
    self.entities = {}
+   self.visible = true
 end
 
 function roomLayer:addEntity(entity)
@@ -28,6 +29,7 @@ function roomLayer:update(dt)
 end
 
 function roomLayer:draw()
+   if not self.visible then return end
    for i=1,#self.entities do
       self.entities[i]:draw()
    end
