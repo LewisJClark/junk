@@ -1,15 +1,9 @@
-local assetManager = require("junk.assets.assetManager")
-local entity = require("junk.entity")
-local tilemapEntity = require("junk.tilemapEntity")
-local room = require("junk.room")
-local class = require("junk.third_party.middleclass")
-
 local function _loadTileLayer(room, layer)
    room:createLayer(layer.name)
    local map = room:createEntity(tilemapEntity, layer.name, 0, 0, { 
       width = layer.width,
       height = layer.height,
-      tileset = assetManager.tilesets[layer.properties.tileset]
+      tileset = Assets.tilesets[layer.properties.tileset]
    }).tilemap
    for y=1,layer.height do
       for x=1,layer.width do

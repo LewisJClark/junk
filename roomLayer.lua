@@ -1,8 +1,4 @@
-local bump = require("junk.third_party.bump")
-local class = require("junk.third_party.middleclass")
-local game = require("junk.game")
-
-local roomLayer = class("roomLayer")
+local roomLayer = Class("roomLayer")
 
 function roomLayer:initialize(name)
    self.name = name

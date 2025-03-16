@@ -1,6 +1,4 @@
-local class = require("junk.third_party.middleclass")
-
-local collider = class("collider")
+local collider = Class("collider")
 
 function collider:initialize(owner, x, y, width, height, offset_x, offset_y)
    self.owner = owner

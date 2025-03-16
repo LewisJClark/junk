@@ -1,21 +1,17 @@
-local bump = require("junk.third_party.bump")
-local class = require("junk.third_party.middleclass")
-local roomLayer = require("junk.roomLayer")
-
 --[[
    A room is a level or screen in a game. I copied this terminology
    from GameMaker because I liked how it sounded. All screens/levels
    in the game should inherit from this.
 ]]
 
-local room = class("room")
+local room = Class("room")
 
 function room:initialize(name)
    self.name = "room"
    self.entities = {}
    self.entity_groups = {}
    self.named_entities = {}
-   self.world = bump.newWorld(60)
+   self.world = Bump.newWorld(60)
    self.layers = {}
    self.layer_lookup = {}
 end

@@ -1,13 +1,18 @@
-local utils = require("junk.utils")
-
 local UP = 0
 local DOWN = 1
 local PRESSED = 2
 local RELEASED = 3
 
 local inputManager = {
+   mouse_x = 0,
+   mouse_y = 0,
+   leftx = 0,
+   lefty = 0,
+   rightx = 0,
+   righty = 0,
+   actions={},
+   bindings={},
    render_scale = 1,
-   instances = {},
    stick_bindings = {
       leftx = { "pad:lstick_left", "pad:lstick_right" },
       lefty = { "pad:lstick_up", "pad:lstick_down" },
@@ -16,21 +21,6 @@ local inputManager = {
    }
 }
 inputManager.__index = inputManager
-
-function inputManager:new()
-   local im = setmetatable({
-      mouse_x = 0,
-      mouse_y = 0,
-      leftx = 0,
-      lefty = 0,
-      rightx = 0,
-      righty = 0,
-      actions = {},
-      bindings={}
-   }, inputManager)
-   table.insert(self.instances, im)
-   return im
-end
 
 function inputManager:addAction(name, ...)
    local args = {...}
@@ -67,14 +57,14 @@ function inputManager:_axisStateChanged(axis, new_state)
    return self[axis] ~= new_state
 end
 
-function love.keypressed(key, scancode, isRepeat) inputManager.instances[1]:_updateBindingState("key:"..key, PRESSED, 1) end
-function love.keyreleased(key, scancode, isRepeat) inputManager.instances[1]:_updateBindingState("key:"..key, RELEASED, 0) end
-function love.mousepressed(x, y, button) inputManager.instances[1]:_updateBindingState("mouse:"..button, PRESSED, 1) end
-function love.mousereleased(x, y, button) inputManager.instances[1]:_updateBindingState("mouse:"..button, RELEASED, 1) end
-function love.gamepadpressed(joystick, button) inputManager.instances[1]:_updateBindingState("pad:"..button, PRESSED, 1) end
-function love.gamepadreleased(joystick, button) inputManager.instances[1]:_updateBindingState("pad:"..button, RELEASED, 0) end
+function love.keypressed(key, scancode, isRepeat) inputManager:_updateBindingState("key:"..key, PRESSED, 1) end
+function love.keyreleased(key, scancode, isRepeat) inputManager:_updateBindingState("key:"..key, RELEASED, 0) end
+function love.mousepressed(x, y, button) inputManager:_updateBindingState("mouse:"..button, PRESSED, 1) end
+function love.mousereleased(x, y, button) inputManager:_updateBindingState("mouse:"..button, RELEASED, 1) end
+function love.gamepadpressed(joystick, button) inputManager:_updateBindingState("pad:"..button, PRESSED, 1) end
+function love.gamepadreleased(joystick, button) inputManager:_updateBindingState("pad:"..button, RELEASED, 0) end
 function love.gamepadaxis(joystick, axis, value)
-   local im = inputManager.instances[1]
+   local im = inputManager
    local binding_negative = inputManager.stick_bindings[axis][1]
    local binding_positive = inputManager.stick_bindings[axis][2]
    local stick_state = im:_getAxisState(value)

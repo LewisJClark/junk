@@ -1,3 +1,32 @@
+-- Third-party.
+Class = require("junk.third_party.middleclass")
+Bump = require("junk.third_party.bump")
+
+-- Require all junk types and just make them global for ergonomics,
+-- means you don't have to do a million 'requires' in every file.
+Utils = require("junk.utils")
+Jmath = require("junk.jmath")
+
+Rect = require("junk.types.rect")
+Vector = require("junk.types.vector")
+
+Input = require("junk.inputManager")
+
+Sprite = require("junk.assets.sprite")
+Tilemap = require("junk.assets.tilemap")
+Assets = require("junk.assets.assetManager")
+
+Collider = require("junk.collider")
+ParticleEmitter = require("junk.particleEmitter")
+
+Signal = require("junk.signal")
+RoomLayer = require("junk.roomLayer")
+Room = require("junk.room")
+Entity = require("junk.entity")
+TilemapEntity = require("junk.tilemapEntity")
+Timer = require("junk.timer")
+Tweener = require("junk.tweener")
+
 --[[ 
    This represents the current state of the game, at least as Junk sees it.
    Modules can require this module in order to modify the overall game state by
@@ -132,21 +161,6 @@ function game:gotoRoom(name)
       if self.current_room then self.current_room:leave() end
       self.current_room = _G[name]:new()
       self.current_room:enter()
-   end
-end
-
--- Signals --------------------------------------------------------------------------------------------------------------------------------------------------
-
-function game:addSignalListener(name, listener)
-   if not self.signals[name] then self.signals[name] = {} end
-   table.insert(self.signals[name], listener)
-end
-
-function game:emitSignal(name, params)
-   local listeners = self.signals[name]
-   if not listeners or #listeners < 1 then return end
-   for _,listener in ipairs(self.signals[name]) do
-      listener(params)
    end
 end
 

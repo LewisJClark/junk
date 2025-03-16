@@ -1,5 +1,3 @@
-local utils = require("junk.utils")
-
 local tilemap = {}
 tilemap.__index = tilemap
 
@@ -7,7 +5,7 @@ function tilemap:new(w, h, tileset)
    local new_tilemap = {
       width = w,
       height = h,
-      tiles = utils.create2dArray(w, h),
+      tiles = Utils.create2dArray(w, h),
       tileset = tileset
    }
    return setmetatable(new_tilemap, tilemap)

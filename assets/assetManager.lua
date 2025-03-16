@@ -1,6 +1,3 @@
-local utils = require("junk.utils")
-local sprite = require("junk.assets.sprite")
-
 local assetManager = {
    fonts = {},
    images = {},
@@ -20,7 +17,7 @@ function assetManager:load()
    end
 
    -- Load the raw image files.
-   local spriteFiles = utils.getFiles("assets/images")
+   local spriteFiles = Utils.getFiles("assets/images")
    for _,v in ipairs(spriteFiles) do
       local filename, _ = v:match("^.+/(.+)%.(.+)$")
       self.images[filename] = love.graphics.newImage(v)
@@ -34,6 +31,10 @@ function assetManager:load()
       for k,sprite in pairs(self.sprites) do
          local image = self.images[sprite.image_name]
          if not sprite.frames then sprite.frames = {{0,0,image:getWidth(),image:getHeight()}} end
+         if sprite.frames.count then
+            -- TODO: Allow defining the rect of the first frame and then the number
+            -- of sequential frames after it.
+         end
          local first_frame = sprite.frames[1]
          if sprite.origin == "top_left" then
             sprite.origin_x = 0
@@ -101,7 +102,7 @@ end
 
 function assetManager:createSprite(sprite_name)
    local sprite_to_instance = self.sprites[sprite_name]
-   local new_sprite = sprite:new()
+   local new_sprite = Sprite:new()
    for k,v in pairs(sprite_to_instance) do
       new_sprite[k] = v
    end
