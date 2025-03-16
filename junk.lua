@@ -96,7 +96,7 @@ function game:update(dt)
    self.delta_tween:update(dt)
    self.scaled_tween:update(self.scaled_delta)
    Input:update(dt)
-   self.current_room:update(self.scaled_delta)
+   if self.current_room then self.current_room:update(self.scaled_delta) end
 end
 
 -- Window ---------------------------------------------------------------------------------------------------------------------------------------------------
