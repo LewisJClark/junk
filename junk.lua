@@ -73,6 +73,7 @@ function game:init(width, height, title)
    love.window.setMode(width, height)
    love.window.setTitle(title)
    love.graphics.setDefaultFilter("nearest", "nearest")
+   love.graphics.setLineStyle("rough")
 
    self.canvas = love.graphics.newCanvas(self.base_width, self.base_height)
    table.insert(self.canvas_stack, self.canvas)
@@ -156,10 +157,10 @@ end
 
 -- Room management ------------------------------------------------------------------------------------------------------------------------------------------
 
-function game:gotoRoom(name)
+function game:gotoRoom(name, config)
    if _G[name] ~= nil then
       if self.current_room then self.current_room:leave() end
-      self.current_room = _G[name]:new()
+      self.current_room = _G[name]:new(config)
       self.current_room:enter()
    end
 end
