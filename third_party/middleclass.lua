@@ -1,7 +1,7 @@
-local middleclass = {
-   _VERSION     = 'middleclass v4.1.1',
+Class = {
+   _VERSION     = 'Class v4.1.1',
    _DESCRIPTION = 'Object Orientation for Lua',
-   _URL         = 'https://github.com/kikito/middleclass',
+   _URL         = 'https://github.com/kikito/Class',
    _LICENSE     = [[
      MIT LICENSE
 
@@ -192,11 +192,10 @@ local DefaultMixin = {
    }
 }
 
-function middleclass.class(name, super)
+function Class.class(name, super)
    assert(type(name) == 'string', "A name (string) is needed for the new class")
    return super and super:subclass(name) or _includeMixin(_createClass(name), DefaultMixin)
 end
 
-setmetatable(middleclass, { __call = function(_, ...) return middleclass.class(...) end })
+setmetatable(Class, { __call = function(_, ...) return Class.class(...) end })
 
-return middleclass

@@ -1,7 +1,7 @@
-local timer = {}
-timer.__index = timer
+Timer = {}
+Timer.__index = Timer
 
-function timer:new(type, duration, callback)
+function Timer:new(type, duration, callback)
    local t = {
       type = type or "once",
       duration = duration,
@@ -9,23 +9,23 @@ function timer:new(type, duration, callback)
       running = true,
       callback = callback
    }
-   return setmetatable(t, timer)
+   return setmetatable(t, Timer)
 end
 
-function timer:every(interval, callback)
-   return timer:new("repeat", interval, callback)
+function Timer:every(interval, callback)
+   return Timer:new("repeat", interval, callback)
 end
 
-function timer:once(delay, callback)
-   return timer:new("once", delay, callback)
+function Timer:once(delay, callback)
+   return Timer:new("once", delay, callback)
 end
 
-function timer:runCallback()
+function Timer:runCallback()
    self.callback()
    return self
 end
 
-function timer:update(dt)
+function Timer:update(dt)
    if self.running ~= true then return end
    self.remaining = self.remaining - dt
    if self.remaining <= 0 then
@@ -38,19 +38,17 @@ function timer:update(dt)
    end
 end
 
-function timer:pause() 
+function Timer:pause() 
    self.running = false 
    return self
 end
 
-function timer:resume() 
+function Timer:resume() 
    self.running = true 
    return self
 end
 
-function timer:reset()
+function Timer:reset()
    self.remaining = self.duration
    return self
 end
-
-return timer

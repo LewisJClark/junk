@@ -1,13 +1,13 @@
 --[[
-   A room is a level or screen in a game. I copied this terminology
+   A Room is a level or screen in a game. I copied this terminology
    from GameMaker because I liked how it sounded. All screens/levels
    in the game should inherit from this.
 ]]
 
-local room = Class("room")
+Room = Class("Room")
 
-function room:initialize(name)
-   self.name = "room"
+function Room:initialize(name)
+   self.name = "Room"
    self.entities = {}
    self.entity_groups = {}
    self.named_entities = {}
@@ -16,7 +16,7 @@ function room:initialize(name)
    self.layer_lookup = {}
 end
 
-function room:createLayer(name)
+function Room:createLayer(name)
    if self.layer_lookup[name] ~= nil then
       error("Room layer '"..name.." already exists")
    end
@@ -26,14 +26,14 @@ function room:createLayer(name)
    return layer
 end
 
-function room:createLayers(...)
+function Room:createLayers(...)
    local args = {...}
    for i=1,#args do
       self:createLayer(args[i])
    end
 end
 
-function room:createEntity(kind, layer, x, y, config, name)
+function Room:createEntity(kind, layer, x, y, config, name)
    local target_layer = self.layer_lookup[layer]
    if target_layer == nil then return end
    local e
@@ -49,31 +49,31 @@ function room:createEntity(kind, layer, x, y, config, name)
    return e
 end
 
-function room:destroyEntity(entity)
+function Room:destroyEntity(entity)
    entity.room_layer:removeEntity(entity)
    entity:destroyed()
 end
 
-function room:addNamedEntity(entity, name)
+function Room:addNamedEntity(entity, name)
    self.named_entities[name] = entity
 end
 
-function room:removeNamedEntity(name)
+function Room:removeNamedEntity(name)
    self.named_entities[name] = nil
 end
 
-function room:getNamedEntity(name)
+function Room:getNamedEntity(name)
    return self.named_entities[name]
 end
 
-function room:addEntityToGroup(entity, group)
+function Room:addEntityToGroup(entity, group)
    if self.entity_groups[group] == nil then
       self.entity_groups[group] = {}
    end
    table.insert(self.entity_groups[group], entity)
 end
 
-function room:removeEntityFromGroup(entity, group)
+function Room:removeEntityFromGroup(entity, group)
    if self.entity_groups[group] == nil then return end
    local group = self.entity_groups[group]
    for i=#group,1,-1 do
@@ -81,46 +81,44 @@ function room:removeEntityFromGroup(entity, group)
    end
 end
 
-function room:addCollider(collider)
+function Room:addCollider(collider)
    self.world:add(collider, collider.x, collider.y, collider.w, collider.h)
    collider.world = self.world
 end
 
-function room:removeCollider(collider)
+function Room:removeCollider(collider)
    self.world:remove(collider)
    collider.world = nil
 end
 
-function room:enter()
-   -- Called when the room is entered.
+function Room:enter()
+   -- Called when the Room is entered.
 end
 
-function room:update(dt)
+function Room:update(dt)
    for i=1,#self.layers do
       self.layers[i]:update(dt)
    end
 end
 
-function room:draw()
+function Room:draw()
    for i=1,#self.layers do
       self.layers[i]:draw()
    end
 end
 
-function room:leave()
-   -- Called when the room is left.
+function Room:leave()
+   -- Called when the Room is left.
 end
 
-function room:positionMeeting(x, y, filter)
+function Room:positionMeeting(x, y, filter)
    local colliders = self.world:queryPoint(x, y, filter)
    return colliders
 end
 
-function room:positionMeetingGroup(x, y, group)
+function Room:positionMeetingGroup(x, y, group)
    local colliders = self.world:queryPoint(x, y, function(item) 
       return item:isInGroup(group)
    end)
    return colliders
 end
-
-return room

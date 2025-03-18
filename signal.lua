@@ -1,32 +1,30 @@
-local signal = {}
-signal.__index = signal
+Signal = {}
+Signal.__index = Signal
 
-function signal:new()
-   return setmetatable({}, signal)
+function Signal:new()
+   return setmetatable({}, Signal)
 end
 
-function signal:addSignals(...)
+function Signal:addSignals(...)
    local args = {...}
    for _,name in ipairs(args) do
       self[name] = {}
    end
 end
 
-function signal:emit(name, args)
+function Signal:emit(name, args)
    if self[name] == nil then return end
-   for _,listener in ipairs(self[name]) do
+   for _,listener in pairs(self[name]) do
       listener(args)
    end
 end
 
-function signal:addListener(name, listener)
+function Signal:addListener(name, listener)
    if self[name] == nil then self[name] = {} end
    self[name][listener] = listener
 end
 
-function signal:removeListener(name, listener)
+function Signal:removeListener(name, listener)
    if self[name] == nil then return end
    self[name][listener] = nil
 end
-
-return signal

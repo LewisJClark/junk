@@ -1,12 +1,12 @@
 -- Small wrapper for the love2d particle system.
 -- Inspired in part by the GameMaker particle API.
 
-local particleEmitter = {}
-particleEmitter.__index = particleEmitter
+ParticleEmitter = {}
+ParticleEmitter.__index = ParticleEmitter
 
 -- Create a new particle emitter at the given position,
 -- capable of emitting maxParticles at once.
-function particleEmitter:new(x, y, type, maxParticles)
+function ParticleEmitter:new(x, y, type, maxParticles)
    local pe = {
       base = love.graphics.newParticleSystem(type.image, maxParticles or 1000),
       x = x,
@@ -16,11 +16,11 @@ function particleEmitter:new(x, y, type, maxParticles)
       distribution="normal",
       particle_type = nil
    }
-   particleEmitter.setParticleType(pe, type)
-   return setmetatable(pe, particleEmitter)
+   ParticleEmitter.setParticleType(pe, type)
+   return setmetatable(pe, ParticleEmitter)
 end
 
-function particleEmitter:setParticleType(type)
+function ParticleEmitter:setParticleType(type)
    if type == self.particle_type then return end
    self.particle_type = type
    if type.image then self.base:setTexture(type.image) end
@@ -33,7 +33,7 @@ function particleEmitter:setParticleType(type)
    if type.speed then self.base:setSpeed(type.speed[1], type.speed[2]) end
 end
 
-function particleEmitter:setArea(x, y, w, h)
+function ParticleEmitter:setArea(x, y, w, h)
    self.x = x
    self.y = y
    self.width = w
@@ -43,48 +43,46 @@ function particleEmitter:setArea(x, y, w, h)
    return self
 end
 
-function particleEmitter:setDistribution(distribution)
+function ParticleEmitter:setDistribution(distribution)
    self.distribution = distribution
    self.base:setEmissionArea(distribution, self.width, self.height)
    return self
 end
 
-function particleEmitter:setDuration(duration)
+function ParticleEmitter:setDuration(duration)
    self.base:setEmitterLifetime(duration)
    return self
 end
 
-function particleEmitter:setRate(rate)
+function ParticleEmitter:setRate(rate)
    self.base:setEmissionRate(rate)
    return self
 end
 
-function particleEmitter:setPosition(x, y)
+function ParticleEmitter:setPosition(x, y)
    self.x = x
    self.y = y
    self.base:setPosition(x, y)
    return self
 end
 
-function particleEmitter:start() self.base:start() end
+function ParticleEmitter:start() self.base:start() end
 
-function particleEmitter:update(dt) self.base:update(dt) end
+function ParticleEmitter:update(dt) self.base:update(dt) end
 
-function particleEmitter:draw() love.graphics.draw(self.base, 0, 0) end
+function ParticleEmitter:draw() love.graphics.draw(self.base, 0, 0) end
 
-function particleEmitter:stop() self.base:stop() end
+function ParticleEmitter:stop() self.base:stop() end
 
-function particleEmitter:reset() self.base:reset() end
+function ParticleEmitter:reset() self.base:reset() end
 
-function particleEmitter:stream(type)
+function ParticleEmitter:stream(type)
    self:setParticleType(type)
    self.base:reset()
    self.base:start()
 end
 
-function particleEmitter:burst(amount, type)
+function ParticleEmitter:burst(amount, type)
    if type then self:setParticleType(type) end
    self.base:emit(amount)
 end
-
-return particleEmitter

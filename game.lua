@@ -1,9 +1,9 @@
 --[[ 
-   This represents the current state of the game, at least as Junk sees it.
-   Modules can require this module in order to modify the overall game state by
+   This represents the current state of the Game, at least as Junk sees it.
+   Modules can require this module in order to modify the overall Game state by
    changing rooms, changing window sizes etc.
 ]]
-local game = {
+Game = {
    base_width = 384,
    base_height = 216,
    render_scale = 1,
@@ -17,7 +17,7 @@ local game = {
       black={ 0, 0, 0, 1 },
    },
    
-   window_title = "game",
+   window_title = "Game",
    window_width = 384,
    window_height = 216,
    current_font = nil,
@@ -33,7 +33,7 @@ local game = {
    scaled_tween = Tweener:new()
 }
 
-function game:init(width, height, title)
+function Game:init(width, height, title)
    self.base_width = width
    self.base_height = height
    self.window_title = title
@@ -44,6 +44,7 @@ function game:init(width, height, title)
    love.window.setMode(width, height)
    love.window.setTitle(title)
    love.graphics.setDefaultFilter("nearest", "nearest")
+   love.graphics.setLineStyle("rough")
 
    self.canvas = love.graphics.newCanvas(self.base_width, self.base_height)
    table.insert(self.canvas_stack, self.canvas)
@@ -62,23 +63,23 @@ function game:init(width, height, title)
    Assets:load()
 end
 
-function game:update(dt)
+function Game:update(dt)
    self.scaled_delta = dt * self.time_scale
    self.delta_tween:update(dt)
    self.scaled_tween:update(self.scaled_delta)
    Input:update(dt)
-   self.current_room:update(self.scaled_delta)
+   if self.current_room then self.current_room:update(self.scaled_delta) end
 end
 
 -- Window ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-function game:setWindowBorderless(borderless)
+function Game:setWindowBorderless(borderless)
    love.window.setMode(self.window_width, self.window_height, {borderless=borderless})
 end
 
 -- Rendering ------------------------------------------------------------------------------------------------------------------------------------------------
 
-function game:setRenderScale(scale)
+function Game:setRenderScale(scale)
    self.render_scale = scale
    self.window_width = self.base_width * scale
    self.window_height = self.base_height * scale
@@ -86,18 +87,18 @@ function game:setRenderScale(scale)
    love.window.setMode(self.window_width, self.window_height)
 end
 
-function game:registerColour(name, r, g, b, a)
+function Game:registerColour(name, r, g, b, a)
    self.colours[name] = Utils.normalizeColour({ r, g, b, a})
 end
 
-function game:getColourCopy(name)
+function Game:getColourCopy(name)
    if self.colours[name] ~= nil then
       local col = self.colours[name]
       return { col[1], col[2], col[3], col[4] }
    end
 end
 
-function game:drawColliders()
+function Game:drawColliders()
    if not self.current_room then return end
    local colliders = self.current_room.world:getItems()
    for i=1,#colliders do
@@ -105,49 +106,32 @@ function game:drawColliders()
    end
 end
 
-function game:pushCanvas(canvas)
+function Game:pushCanvas(canvas)
    table.insert(self.canvas_stack, canvas)
    love.graphics.setCanvas(canvas)
 end
 
-function game:popCanvas()
+function Game:popCanvas()
    table.remove(self.canvas_stack, #self.canvas_stack)
    love.graphics.setCanvas(self.canvas_stack[#self.canvas_stack])
 end
 
-function game:pushShader(shader)
+function Game:pushShader(shader)
    table.insert(self.shader_stack, shader)
    love.graphics.setShader(shader)
 end
 
-function game:popShader()
+function Game:popShader()
    table.remove(self.shader_stack, #self.shader_stack)
    love.graphics.setShader(self.shader_stack[#self.shader_stack])
 end
 
 -- Room management ------------------------------------------------------------------------------------------------------------------------------------------
 
-function game:gotoRoom(name, config)
+function Game:gotoRoom(name, config)
    if _G[name] ~= nil then
       if self.current_room then self.current_room:leave() end
       self.current_room = _G[name]:new(config)
       self.current_room:enter()
    end
 end
-
--- Signals --------------------------------------------------------------------------------------------------------------------------------------------------
-
-function game:addSignalListener(name, listener)
-   if not self.signals[name] then self.signals[name] = {} end
-   table.insert(self.signals[name], listener)
-end
-
-function game:emitSignal(name, params)
-   local listeners = self.signals[name]
-   if not listeners or #listeners < 1 then return end
-   for _,listener in ipairs(self.signals[name]) do
-      listener(params)
-   end
-end
-
-return game

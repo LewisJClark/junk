@@ -1,23 +1,23 @@
-local tilemap = {}
-tilemap.__index = tilemap
+Tilemap = {}
+Tilemap.__index = Tilemap
 
-function tilemap:new(w, h, tileset)
-   local new_tilemap = {
+function Tilemap:new(w, h, tileset)
+   local new_Tilemap = {
       width = w,
       height = h,
       tiles = Utils.create2dArray(w, h),
       tileset = tileset
    }
-   return setmetatable(new_tilemap, tilemap)
+   return setmetatable(new_Tilemap, Tilemap)
 end
 
-function tilemap:set(x, y, tile)
+function Tilemap:set(x, y, tile)
    if x < 1 or x > self.width then return end
    if y < 1 or y > self.height then return end
    self.tiles[x][y] = tile
 end
 
-function tilemap:setNamed(x, y, tile_name)
+function Tilemap:setNamed(x, y, tile_name)
    if x < 1 or x > self.width then return end
    if y < 1 or y > self.height then return end
    local tile = self.tileset.namedTiles[tile_name]
@@ -25,7 +25,7 @@ function tilemap:setNamed(x, y, tile_name)
    self.tiles[x][y] = tile
 end
 
-function tilemap:setNamedRandom(x, y, tile_name)
+function Tilemap:setNamedRandom(x, y, tile_name)
    if x < 1 or x > self.width then return end
    if y < 1 or y > self.height then return end
    local named_tile = self.tileset.namedTiles[tile_name]
@@ -34,7 +34,7 @@ function tilemap:setNamedRandom(x, y, tile_name)
    self.tiles[x][y] = tile
 end
 
-function tilemap:draw(x, y)
+function Tilemap:draw(x, y)
    for xx=1,self.width do
       for yy=1,self.height do
          local tileIndex = self.tiles[xx][yy] or 0
@@ -46,5 +46,3 @@ function tilemap:draw(x, y)
       end
    end
 end
-
-return tilemap

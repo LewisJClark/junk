@@ -1,4 +1,4 @@
-local vector = { 
+Vector = { 
    x = 0, 
    y = 0,
    left = { x=-1, y=0 },
@@ -6,37 +6,37 @@ local vector = {
    up = { x=0, y=-1 },
    down = { x=0, y=1 }
 }
-vector.__index = vector
+Vector.__index = Vector
 
-function vector:new(x, y)
+function Vector:new(x, y)
    local v = { x = x or 0, y = y or 0 }
-   setmetatable(v, vector)
+   setmetatable(v, Vector)
    return v
 end
 
-function vector:length()
+function Vector:length()
    return math.sqrt((self.x * self.x) + (self.y * self.y))
 end
 
-function vector:normalize()
+function Vector:normalize()
    local len = math.sqrt((self.x * self.x) + (self.y * self.y))
-   return vector:new(self.x / len, self.y / len)
+   return Vector:new(self.x / len, self.y / len)
 end
 
-function vector:copy()
-   return vector:new(self.x, self.y)
+function Vector:copy()
+   return Vector:new(self.x, self.y)
 end
 
-function vector:setTo(other)
+function Vector:setTo(other)
    self.x = other.x
    self.y = other.y
 end
 
-function vector:isZero()
+function Vector:isZero()
    return self.x == 0 and self.y == 0
 end
 
-function vector:limitLength(desired)
+function Vector:limitLength(desired)
    local len = math.sqrt((self.x * self.x) + (self.y * self.y))
    if len > desired then
       self.x = (self.x / len) * desired
@@ -45,45 +45,41 @@ function vector:limitLength(desired)
    return self
 end
 
-function vector:lengthDir(dist, angle)
+function Vector:lengthDir(dist, angle)
    local radians = math.rad(angle)
-   return vector:new(self.x + (dist * math.cos(radians)), self.y + (dist * math.sin(radians)))
+   return Vector:new(self.x + (dist * math.cos(radians)), self.y + (dist * math.sin(radians)))
 end
 
-function vector:angleTo(x, y)
+function Vector:angleTo(x, y)
    return math.deg(math.atan2(y - self.y, x - self.x))
 end
 
-function vector:distanceTo(other)
-   return vector:new(other.x - self.x, other.y - self.y):length()
+function Vector:distanceTo(other)
+   return Vector:new(other.x - self.x, other.y - self.y):length()
 end
 
-function vector.__add(a, b)
-   if type(a) == "number" then return vector:new(b.x + a, b.y + a) end
-   if type(b) == "number" then return vector:new(a.x + b, a.y + b) end
-   return vector:new(a.x + b.x, a.y + b.y)
+function Vector.__add(a, b)
+   if type(a) == "number" then return Vector:new(b.x + a, b.y + a) end
+   if type(b) == "number" then return Vector:new(a.x + b, a.y + b) end
+   return Vector:new(a.x + b.x, a.y + b.y)
 end
 
-function vector.__sub(a, b)
-   if type(a) == "number" then return vector:new(b.x - a, b.y - a) end
-   if type(b) == "number" then return vector:new(a.x - b, a.y - b) end
-   return vector:new(a.x - b.x, a.y - b.y)
+function Vector.__sub(a, b)
+   if type(a) == "number" then return Vector:new(b.x - a, b.y - a) end
+   if type(b) == "number" then return Vector:new(a.x - b, a.y - b) end
+   return Vector:new(a.x - b.x, a.y - b.y)
 end
 
-function vector.__mul(a, b)
-   if type(a) == "number" then return vector:new(b.x * a, b.y * a) end
-   if type(b) == "number" then return vector:new(a.x * b, a.y * b) end
-   return vector:new(a.x * b.x, a.y * b.y)
+function Vector.__mul(a, b)
+   if type(a) == "number" then return Vector:new(b.x * a, b.y * a) end
+   if type(b) == "number" then return Vector:new(a.x * b, a.y * b) end
+   return Vector:new(a.x * b.x, a.y * b.y)
 end
 
-function vector.__div(a, b)
-   if type(a) == "number" then return vector:new(b.x * a, b.y * a) end
-   if type(b) == "number" then return vector:new(a.x * b, a.y * b) end
-   return vector:new(a.x * b.x, a.y * b.y)
+function Vector.__div(a, b)
+   if type(a) == "number" then return Vector:new(b.x * a, b.y * a) end
+   if type(b) == "number" then return Vector:new(a.x * b, a.y * b) end
+   return Vector:new(a.x * b.x, a.y * b.y)
 end
 
-function vector.__eq(a, b)
-   return a.x == b.x and a.y == b.y
-end
-
-return vector
+function Vector.__eq(a, b) return a.x == b.x and a.y == b.y end

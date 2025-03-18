@@ -1,4 +1,4 @@
-local assetManager = {
+Assets = {
    fonts = {},
    images = {},
    sprites = {},
@@ -7,7 +7,7 @@ local assetManager = {
    tilesets = {}
 }
 
-function assetManager:load()
+function Assets:load()
    -- Load fonts.
    if love.filesystem.getInfo("assets/fonts.lua") ~= nil then
       self.fonts = require("assets/fonts")
@@ -100,7 +100,7 @@ function assetManager:load()
    end
 end
 
-function assetManager:createSprite(sprite_name)
+function Assets:createSprite(sprite_name)
    local sprite_to_instance = self.sprites[sprite_name]
    local new_sprite = Sprite:new()
    for k,v in pairs(sprite_to_instance) do
@@ -109,7 +109,7 @@ function assetManager:createSprite(sprite_name)
    return new_sprite
 end
 
-function assetManager:loadParticles()
+function Assets:loadParticles()
    if love.filesystem.getInfo("assets/particles.lua") ~= nil then
       self.particles = love.filesystem.load("assets/particles.lua")()
       for _,v in pairs(self.particles) do
@@ -117,5 +117,3 @@ function assetManager:loadParticles()
       end
    end
 end
-
-return assetManager

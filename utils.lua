@@ -1,4 +1,4 @@
- return {
+ Utils = {
 
    create2dArray = function(w, h, default_value)
       local r = {}

@@ -1,6 +1,6 @@
-local bump = {
-   _VERSION     = 'bump v3.1.7',
-   _URL         = 'https://github.com/kikito/bump.lua',
+Bump = {
+   _VERSION     = 'Bump v3.1.7',
+   _URL         = 'https://github.com/kikito/Bump.lua',
    _DESCRIPTION = 'A collision detection library for Lua',
    _LICENSE     = [[
      MIT LICENSE
@@ -735,7 +735,7 @@ local bump = {
  
  -- Public library functions
  
- bump.newWorld = function(cellSize)
+ Bump.newWorld = function(cellSize)
    cellSize = cellSize or 64
    assertIsPositiveNumber(cellSize, 'cellSize')
    local world = setmetatable({
@@ -754,7 +754,7 @@ local bump = {
    return world
  end
  
- bump.rect = {
+ Bump.rect = {
    getNearestCorner              = rect_getNearestCorner,
    getSegmentIntersectionIndices = rect_getSegmentIntersectionIndices,
    getDiff                       = rect_getDiff,
@@ -764,11 +764,9 @@ local bump = {
    detectCollision               = rect_detectCollision
  }
  
- bump.responses = {
+ Bump.responses = {
    touch  = touch,
    cross  = cross,
    slide  = slide,
    bounce = bounce
  }
- 
- return bump
