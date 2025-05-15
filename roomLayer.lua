@@ -1,9 +1,13 @@
-RoomLayer = Class("RoomLayer")
+RoomLayer = {}
+RoomLayer.__index = RoomLayer
 
-function RoomLayer:initialize(name)
-   self.name = name
-   self.entities = {}
-   self.visible = true
+function RoomLayer:new(name)
+   local rl = {
+      name = name,
+      entities = {},
+      visible = true,
+   }
+   return setmetatable(rl, RoomLayer)
 end
 
 function RoomLayer:addEntity(entity)

@@ -1,8 +1,8 @@
 -- Third-party.
-require("junk.third_party.middleclass") -- Class
 require("junk.third_party.bump")        -- Bump
 
 -- Junk.
+require("junk.class")               -- Class
 require("junk.utils")               -- Utils
 require("junk.jmath")               -- Jmath
 require("junk.types.rect")          -- Rect

@@ -1,20 +1,24 @@
 local nextEntityId = 1
 
-Entity = Class("Entity")
+Entity = {}
+Entity.__index = Entity
 
 ---@param room junk.room The room table the Entity belongs to.
 ---@param layer junk.roomLayer The roomLayer table that the Entity is on.
 ---@param x number The Entity's x position in the room.
 ---@param y number The Entity's y position in the room.
 ---@param config table A table with Entity specific config in.
-function Entity:initialize(room, layer, x, y, config)
-   self.id = nextEntityId
+function Entity:new(room, layer, x, y, config)
+   local e = {
+      id = nextEntityId,
+      x = x,
+      y = y,
+      room = room,
+      room_layer = layer,
+      signals = {}
+   }
    nextEntityId = nextEntityId + 1
-   self.x = x
-   self.y = y
-   self.room = room
-   self.room_layer = layer
-   self.signals = {}
+   return setmetatable(e, Entity)
 end
 
 --@param dt number The delta time value to use.
@@ -65,4 +69,10 @@ function Entity:removeSignalListener(name, listener)
    local signal = self.signals[name]
    if signal == nil then return end
    signal[listener] = nil
+end
+
+function Entity:extend(extend_with)
+   for k,v in pairs(extend_with) do
+      self[k] = v
+   end
 end

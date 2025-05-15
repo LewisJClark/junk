@@ -11,6 +11,22 @@
       return r
    end,
 
+   requireAll = function(rootPath)
+      local tree = tree or {}
+      local filesTable = love.filesystem.getDirectoryItems(rootPath)
+      for _,v in ipairs(filesTable) do
+         local path = rootPath.."/"..v
+         local info = love.filesystem.getInfo(path)
+         if info.type == "file" then
+            local dot_path = path:gsub("/", ".")
+            local extension_start = dot_path:find(".lua")
+            local require_path = dot_path:sub(1, extension_start-1)
+            require(require_path)
+         end
+      end
+      return tree
+   end,
+
    getFiles = function(rootPath, tree)
       tree = tree or {}
       local filesTable = love.filesystem.getDirectoryItems(rootPath)
@@ -19,8 +35,6 @@
          local info = love.filesystem.getInfo(path)
          if info.type == "file" then
             tree[#tree+1] = path
-         elseif info.type == "directory" then
-            tree = GetFiles(path, tree)
          end
       end
       return tree

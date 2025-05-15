@@ -128,7 +128,7 @@ end
 
 -- Room management ------------------------------------------------------------------------------------------------------------------------------------------
 
-function Game:gotoRoom(name, config)
+function Game:goToRoom(name, config)
    if _G[name] ~= nil then
       if self.current_room then self.current_room:leave() end
       self.current_room = _G[name]:new(config)

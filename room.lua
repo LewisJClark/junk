@@ -4,16 +4,20 @@
    in the game should inherit from this.
 ]]
 
-Room = Class("Room")
+Room = {}
+Room.__index = Room
 
-function Room:initialize(name)
-   self.name = "Room"
-   self.entities = {}
-   self.entity_groups = {}
-   self.named_entities = {}
-   self.world = Bump.newWorld(60)
-   self.layers = {}
-   self.layer_lookup = {}
+function Room:new(name)
+   local r = {
+      name = "Room",
+      entities = {},
+      entity_groups = {},
+      named_entities = {},
+      world = Bump.newWorld(60),
+      layers = {},
+      layer_lookup = {},
+   }
+   return setmetatable(r, Room)
 end
 
 function Room:createLayer(name)

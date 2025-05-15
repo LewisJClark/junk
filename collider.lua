@@ -1,16 +1,20 @@
-Collider = Class("Collider")
+Collider = {}
+Collider.__index = Collider
 
-function Collider:initialize(owner, x, y, width, height, offset_x, offset_y)
-   self.owner = owner
-   self.offset_x = offset_x or 0
-   self.offset_y = offset_y or 0
-   self.x = x + self.offset_x
-   self.y = y + self.offset_y
-   self.w = width
-   self.h = height
-   self.groups = {}
-   self.filter = function() return false end
-   self.world = nil -- Set when the Collider is added to a room.
+function Collider:new(owner, x, y, width, height, offset_x, offset_y)
+   local c = {
+      owner = owner,
+      offset_x = offset_x or 0,
+      offset_y = offset_y or 0,
+      x = x + self.offset_x,
+      y = y + self.offset_y,
+      w = width,
+      h = height,
+      groups = {},
+      filter = function() return false end,
+      world = nil, -- Set when the Collider is added to a room.
+   }
+   return setmetatable(c, Collider)
 end
 
 function Collider:addToGroup(group)

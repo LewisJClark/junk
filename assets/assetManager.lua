@@ -1,4 +1,5 @@
 Assets = {
+   root_dir = "game/assets/",
    fonts = {},
    images = {},
    sprites = {},
@@ -9,16 +10,16 @@ Assets = {
 
 function Assets:load()
    -- Load fonts.
-   if love.filesystem.getInfo("assets/fonts.lua") ~= nil then
-      self.fonts = require("assets/fonts")
+   if love.filesystem.getInfo(Assets.root_dir .. "fonts.lua") ~= nil then
+      self.fonts = require(Assets.root_dir .. "fonts")
       for k,v in pairs(self.fonts) do
          self.fonts[k] = love.graphics.newFont(v.file, v.size)
       end
    end
 
    -- Load the raw image files.
-   local spriteFiles = Utils.getFiles("assets/images")
-   for _,v in ipairs(spriteFiles) do
+   local sprite_files = Utils.getFiles(Assets.root_dir .. "images")
+   for _,v in ipairs(sprite_files) do
       local filename, _ = v:match("^.+/(.+)%.(.+)$")
       self.images[filename] = love.graphics.newImage(v)
    end
@@ -26,8 +27,8 @@ function Assets:load()
    self:loadParticles()
 
    -- Create any sprites.
-   if love.filesystem.getInfo("assets/sprites.lua") ~= nil then
-      self.sprites = require("assets/sprites")
+   if love.filesystem.getInfo(Assets.root_dir .. "sprites.lua") ~= nil then
+      self.sprites = require(Assets.root_dir .. "sprites")
       for k,sprite in pairs(self.sprites) do
          local image = self.images[sprite.image_name]
          if not sprite.frames then sprite.frames = {{0,0,image:getWidth(),image:getHeight()}} end
@@ -72,8 +73,8 @@ function Assets:load()
    end
 
    -- Create any tilesets.
-   if love.filesystem.getInfo("assets/tilesets.lua") ~= nil then
-      self.tilesets = require("assets/tilesets")
+   if love.filesystem.getInfo(Assets.root_dir .. "tilesets.lua") ~= nil then
+      self.tilesets = require(Assets.root_dir .. "tilesets")
       for _,tileset in pairs(self.tilesets) do
          local image = self.images[tileset.imageName]
          local tilesAcross = image:getWidth() / tileset.tileWidth
@@ -92,10 +93,10 @@ function Assets:load()
    end
 
    -- Create any shaders.
-   if love.filesystem.getInfo("assets/shaders.lua") ~= nil then
-      self.shaders = require("assets/shaders")
+   if love.filesystem.getInfo(Assets.root_dir .. "shaders.lua") ~= nil then
+      self.shaders = require(Assets.root_dir .. "shaders")
       for key,config in pairs(self.shaders) do
-         self.shaders[key] = love.graphics.newShader(config.fragment or "", config.vertex or "")
+         self.shaders[key] = love.graphics.newShader(Assets.root_dir .. config.fragment or "", Assets.root_dir .. config.vertex)
       end
    end
 end
@@ -110,8 +111,8 @@ function Assets:createSprite(sprite_name)
 end
 
 function Assets:loadParticles()
-   if love.filesystem.getInfo("assets/particles.lua") ~= nil then
-      self.particles = love.filesystem.load("assets/particles.lua")()
+   if love.filesystem.getInfo(Assets.root_dir .. "particles.lua") ~= nil then
+      self.particles = love.filesystem.load(Assets.root_dir .. "particles.lua")()
       for _,v in pairs(self.particles) do
          v.image = self.images[v.image]
       end

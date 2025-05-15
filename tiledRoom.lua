@@ -30,15 +30,16 @@ local function _loadGroupLayer(room, layer)
    end
 end
 
-TiledRoom = Class("TiledRoom", Room)
+TiledRoom = Class.inherit({}, Room)
 
 --[[
    A tiled room is just like a normal room apart from it will create layers and
    populate them based on a Tiled Map Editor export.
 ]]
 function TiledRoom:initialize(name, filename)
-   room.initialize(self, name)
+   local r = Room:new(name)
    local room_data = require(filename)
-   _loadGroupLayer(self, room_data)
+   _loadGroupLayer(r, room_data)
+   return r
 end
 

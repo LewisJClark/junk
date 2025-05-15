@@ -1,8 +1,12 @@
-TilemapEntity = Class("TilemapEntity", Entity)
+TilemapEntity = {}
+TilemapEntity.__index = TilemapEntity
 
-function TilemapEntity:initialize(room, layer, x, y, config)
-   Entity.initialize(self, room, layer, x, y, config)
-   self.tilemap = tilemap:new(config.width, config.height, config.tileset)
+function TilemapEntity:new(room, layer, x, y, config)
+   local e = Entity:new(room, layer, x, y, config)
+   e:extend({
+      tilemap = tilemap:new(config.width, config.height, config.tileset)
+   })
+   return setmetatable(e, TilemapEntity)
 end
 
 function TilemapEntity:draw()
